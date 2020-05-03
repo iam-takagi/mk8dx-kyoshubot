@@ -102,13 +102,11 @@ class AddCommand : Command(){
 
 
             if(Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(Koumoku(title, hour.toInt(), need.toInt(), mutableListOf()))){
-                Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList = Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.
-                    sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
                 replyInDm(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
                         setAuthor(
-                            "項目を追加しました",
+                            "挙手項目を追加しました",
                             null,
                             null
                         )
@@ -136,7 +134,7 @@ class AddCommand : Command(){
                             k.kyoshuUsers.forEach { id ->
                                 val member = guild.getMemberById(id)
                                 if(member != null) {
-                                    k.kyoshuUsers.forEach { id -> b.append(member.asMention) }
+                                    b.append(member.asMention)
                                 }
                             }
                         }
