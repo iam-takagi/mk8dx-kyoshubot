@@ -79,7 +79,7 @@ class DropCommand : Command(){
                     while (it.hasNext()) {
                         val k = it.next()
                         val b =
-                            StringBuilder("・${koumoku.hour}時 @${k.need - k.kyoshuUsers.size} ${k.title}")
+                            StringBuilder("・${k.hour}時 @${k.need - k.kyoshuUsers.size} ${k.title}")
                         if (k.kyoshuUsers.size >= 1) {
                             b.append("\n")
                             k.kyoshuUsers.forEach { id ->

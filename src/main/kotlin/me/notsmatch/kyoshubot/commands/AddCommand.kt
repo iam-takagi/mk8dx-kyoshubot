@@ -128,14 +128,14 @@ class AddCommand : Command(){
                     builder.append("==========================\n")
                     val it = boshu.koumokuList.iterator()
                     while (it.hasNext()){
-                        val koumoku = it.next()
-                        val b = StringBuilder("・${koumoku.hour}時 @${koumoku.need-koumoku.kyoshuUsers.size} ${koumoku.title}")
-                        if(koumoku.kyoshuUsers.size >= 1) {
+                        val k = it.next()
+                        val b = StringBuilder("・${k.hour}時 @${k.need-k.kyoshuUsers.size} ${k.title}")
+                        if(k.kyoshuUsers.size >= 1) {
                             b.append("\n")
-                            koumoku.kyoshuUsers.forEach { id ->
+                            k.kyoshuUsers.forEach { id ->
                                 val member = guild.getMemberById(id)
                                 if(member != null) {
-                                    koumoku.kyoshuUsers.forEach { id -> b.append(member.asMention) }
+                                    k.kyoshuUsers.forEach { id -> b.append(member.asMention) }
                                 }
                             }
                         }
