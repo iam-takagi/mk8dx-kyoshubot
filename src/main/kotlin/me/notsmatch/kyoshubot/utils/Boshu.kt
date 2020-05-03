@@ -1,6 +1,6 @@
 package me.notsmatch.kyoshubot.utils
 
-class Boshu(val guildId: Long, val channelId: Long, val date: Long, val koumokuList: MutableList<Koumoku>) {
+class Boshu(val guildId: Long, val channelId: Long, val date: Long, var koumokuList: MutableList<Koumoku>) {
 
     var messageId: Long = 0
 

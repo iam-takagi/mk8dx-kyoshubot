@@ -102,7 +102,7 @@ class AddCommand : Command(){
 
 
             if(Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(Koumoku(title, hour.toInt(), need.toInt(), mutableListOf()))){
-                Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.sortWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; })
+                Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList = Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) -1 else 1; }).toMutableList()
                 replyInDm(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
