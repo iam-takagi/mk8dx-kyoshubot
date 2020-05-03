@@ -78,20 +78,20 @@ class CanCommand : Command(){
             if(!koumoku.kyoshuUsers.contains(author.idLong)){
                 if(koumoku.kyoshuUsers.add(author.idLong)) {
 
-                    textChannel.editMessageById(boshu.messageId, EmbedBuilder().apply {
+                    textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                         setColor(Color.CYAN)
                         setAuthor(
-                            "募集が進行中です",
+                            "募集は締め切られました",
                             null,
                             null
                         )
-                        val builder =
-                            StringBuilder("日時: " + SimpleDateFormat("yyyy/MM/dd").format(Date(boshu.date)) + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。\n")
+                        val builder = StringBuilder("日時: " + SimpleDateFormat("yyyy/MM/dd").format(Date(boshu.date)) + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。\n")
                         builder.append("==========================\n")
                         val it = boshu.koumokuList.iterator()
                         while (it.hasNext()) {
                             val k = it.next()
-                            val b = StringBuilder("・${k.hour}時 @${k.need - k.kyoshuUsers.size} ${k.title}")
+                            val b =
+                                StringBuilder("・${k.hour}時 @${k.need - k.kyoshuUsers.size} ${k.title}")
                             if (k.kyoshuUsers.size >= 1) {
                                 b.append("\n")
                                 k.kyoshuUsers.forEach { id ->
