@@ -64,8 +64,7 @@ class DropCommand : Command(){
             }.build())
 
             if(koumoku.kyoshuUsers.contains(author.idLong)){
-               if( koumoku.kyoshuUsers.remove(author.idLong)) {
-
+               if(koumoku.kyoshuUsers.remove(author.idLong)) {
                    textChannel.editMessageById(boshu.messageId, EmbedBuilder().apply {
                        setColor(Color.CYAN)
                        setAuthor(
