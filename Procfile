@@ -1,1 +1,1 @@
-worker: java -jar build/libs/KyoshuBot-1.0-SNAPSHOT.jar
+web: java -jar build/libs/KyoshuBot-1.0-SNAPSHOT.jar
