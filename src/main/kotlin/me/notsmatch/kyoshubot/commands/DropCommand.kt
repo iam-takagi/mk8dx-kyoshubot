@@ -68,7 +68,7 @@ class DropCommand : Command(){
                    textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                        setColor(Color.CYAN)
                        setAuthor(
-                           "募集は締め切られました",
+                           "募集が進行中です",
                            null,
                            null
                        )
