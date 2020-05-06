@@ -1,5 +1,5 @@
 # KyoshuBot
-MK8DXのチーム挙手で役立ちそうなBot
+MK8DXのチームで役立ちそうな挙手Bot
 
 # Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
