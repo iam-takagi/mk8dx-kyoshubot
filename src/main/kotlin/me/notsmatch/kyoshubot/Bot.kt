@@ -17,9 +17,6 @@ class Bot (private val token: String) {
     companion object {
         @JvmStatic
         lateinit var instance: Bot
-
-        @JvmStatic
-        val random: Random = Random()
     }
 
     lateinit var jda: JDA
@@ -37,14 +34,5 @@ class Bot (private val token: String) {
         builder.setHelpWord("kyoshu")
         val client = builder.build()
         jda.addEventListener(client)
-        jda.addEventListener(Listener())
-    }
-}
-
-class Listener : ListenerAdapter() {
-    override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
-        if(event.message.contentRaw.startsWith("!")){
-            event.message.delete().complete()
-        }
     }
 }
