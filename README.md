@@ -14,6 +14,9 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 * .d 21
 
 # Command
+
+.kyoshuでhelp表示
+
 ![](https://i.imgur.com/GRjQyZY.png)
 
 # Image
