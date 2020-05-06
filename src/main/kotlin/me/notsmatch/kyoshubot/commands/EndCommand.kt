@@ -30,7 +30,7 @@ class EndCommand : Command(){
                     setDescription(":x: このチャンネルでは募集が開始されていません。")
                 }.build())
 
-            if(Manager.boshuList.remove(boshu)){
+            if(Manager.removeBoshu(guild.idLong, channel.idLong)){
                 textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                     setColor(Color.CYAN)
                     setAuthor(
