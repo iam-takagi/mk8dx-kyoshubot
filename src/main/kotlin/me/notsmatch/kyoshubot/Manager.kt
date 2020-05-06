@@ -1,7 +1,6 @@
-package me.notsmatch.kyoshubot.utils
+package me.notsmatch.kyoshubot
 
-import java.text.DateFormat
-import java.text.SimpleDateFormat
+import me.notsmatch.kyoshubot.model.Boshu
 
 object Manager {
 
