@@ -20,7 +20,7 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 
 .kyoshuでhelp表示
 
-![](https://i.imgur.com/GRjQyZY.png)
+![](https://i.imgur.com/G7XjreB.png)
 
 # Image
 ![](https://i.imgur.com/MpV9pCV.png)
