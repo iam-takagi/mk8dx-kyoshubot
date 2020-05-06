@@ -20,6 +20,8 @@ class StartCommand() : Command(){
     override fun execute(event: CommandEvent?) {
         event?.apply {
 
+            event.message.delete().complete()
+
             val args = args.split(" ")
             val date = args[0]
             try {
@@ -44,7 +46,7 @@ class StartCommand() : Command(){
                             null,
                             null
                         )
-                        setDescription("日時: " + date + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                        setDescription("@everyone\n日時: " + date + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     }.build()
                 ).complete().idLong
             } else {

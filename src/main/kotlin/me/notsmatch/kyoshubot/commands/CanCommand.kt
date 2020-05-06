@@ -20,7 +20,7 @@ class CanCommand : Command(){
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-
+            event.message.delete().complete()
 
             val boshu = Manager.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
@@ -85,7 +85,7 @@ class CanCommand : Command(){
                             null,
                             null
                         )
-                        val builder = StringBuilder("日時: " + SimpleDateFormat("yyyy/MM/dd").format(Date(boshu.date)) + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。\n")
+                        val builder = StringBuilder("@everyone\n日時: " + SimpleDateFormat("yyyy/MM/dd").format(Date(boshu.date)) + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。\n")
                         builder.append("==========================\n")
                         val it = boshu.koumokuList.iterator()
                         while (it.hasNext()) {
