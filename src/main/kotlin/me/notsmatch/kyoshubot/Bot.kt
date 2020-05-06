@@ -27,7 +27,7 @@ class Bot (private val token: String) {
         val builder = CommandClientBuilder()
 
         builder.setOwnerId("695218967173922866")
-        builder.setPrefix("!")
+        builder.setPrefix(".")
 
         builder.addCommands(StartCommand(), EndCommand(), AddCommand(), RemoveCommand(), CanCommand(), DropCommand())
 
