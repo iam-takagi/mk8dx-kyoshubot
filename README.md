@@ -12,7 +12,7 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 * .d 21
 
 # Command
-![](https://i.imgur.com/1dFCLVD.png)
+![](https://i.imgur.com/GRjQyZY.png)
 
 # Image
-![](https://i.imgur.com/5iyCCDY.png)
+![](https://i.imgur.com/MpV9pCV.png)
