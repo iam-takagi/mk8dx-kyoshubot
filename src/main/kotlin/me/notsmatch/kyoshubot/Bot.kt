@@ -2,15 +2,16 @@ package me.notsmatch.kyoshubot
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder
 import me.notsmatch.kyoshubot.commands.*
-import me.notsmatch.kyoshubot.utils.Manager
 import net.dv8tion.jda.api.AccountType
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
+import net.dv8tion.jda.api.entities.Activity
+import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.util.*
-import javax.annotation.Nonnull
+import kotlin.concurrent.timerTask
+
 
 class Bot (private val token: String) {
 
@@ -30,9 +31,24 @@ class Bot (private val token: String) {
         builder.setPrefix(".")
 
         builder.addCommands(StartCommand(), EndCommand(), AddCommand(), RemoveCommand(), CanCommand(), DropCommand())
-
         builder.setHelpWord("kyoshu")
+
         val client = builder.build()
+        jda.addEventListener(Listener())
         jda.addEventListener(client)
+    }
+}
+
+class Listener : ListenerAdapter() {
+
+    override fun onReady(event: ReadyEvent) {
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                event.jda.apply {
+                    presence.setPresence(OnlineStatus.ONLINE, Activity.watching("type .kyoshu | ${guilds.size} servers"))
+                }
+            }
+        }, 0, 1000*300)
     }
 }
