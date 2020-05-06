@@ -10,7 +10,7 @@ MK8DXのチーム挙手で役立ちそうなBot
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
 # Usage
-hourは0-24で指定してください (時間)
+hourは0-24で指定してください (時間)\n
 needは0-12で指定してください (募集人数)
 
 * .start 明日の交流戦
