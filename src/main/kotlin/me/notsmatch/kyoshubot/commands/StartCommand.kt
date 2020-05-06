@@ -14,7 +14,7 @@ class StartCommand() : Command(){
     init {
         this.name = "start"
         this.help = "募集を開始します"
-        this.arguments = "<yyyy/MM/dd>"
+        this.arguments = "<タイトル>"
     }
 
     override fun execute(event: CommandEvent?) {
@@ -23,10 +23,8 @@ class StartCommand() : Command(){
             event.message.delete().complete()
 
             val args = args.split(" ")
-            val date = args[0]
-            try {
-                SimpleDateFormat("yyyy/MM/dd").parse(date)
-            } catch (e: Exception) {
+            val title = args[0]
+            if(title.length > 30){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -34,10 +32,10 @@ class StartCommand() : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: 日時の形式が正しくありません。")
+                    setDescription(":x: タイトルは30文字以下に設定してください")
                 }.build())
             }
-            if (Manager.addBoshu(guild.idLong, channel.idLong, SimpleDateFormat("yyyy/MM/dd").parse(date).time)) {
+            if (Manager.addBoshu(guild.idLong, channel.idLong, title)) {
                 Manager.getBoshu(guild.idLong, channel.idLong)!!.messageId = channel.sendMessage(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
@@ -46,7 +44,7 @@ class StartCommand() : Command(){
                             null,
                             null
                         )
-                        setDescription("@everyone\n日時: " + date + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                        setDescription("@everyone\nタイトル: " + title + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     }.build()
                 ).complete().idLong
             } else {

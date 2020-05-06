@@ -82,7 +82,7 @@ class RemoveCommand : Command(){
                         null,
                         null
                     )
-                    val builder = StringBuilder("@everyone\n日時: " + SimpleDateFormat("yyyy/MM/dd").format(Date(boshu.date)) + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。\n")
+                    val builder = StringBuilder("@everyone\nタイトル: " + boshu.title + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     builder.append("==========================\n")
                     val it = boshu.koumokuList.iterator()
                     while (it.hasNext()) {

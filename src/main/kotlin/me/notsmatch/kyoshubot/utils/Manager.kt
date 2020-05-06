@@ -24,9 +24,9 @@ object Manager {
      * @param channelId
      * @return 該当のギルドのチャンネルで既に募集中の場合はfalseを返します
      */
-    fun addBoshu(guildId: Long, channelId: Long, date: Long) : Boolean {
+    fun addBoshu(guildId: Long, channelId: Long, title: String) : Boolean {
         if (getBoshu(guildId, channelId) != null) return false
-        boshuList.add(Boshu(guildId, channelId, date, mutableListOf()))
+        boshuList.add(Boshu(guildId, channelId, title, mutableListOf()))
         return true
     }
 
