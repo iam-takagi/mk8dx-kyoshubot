@@ -1,4 +1,4 @@
-package me.notsmatch.kyoshubot.utils
+package me.notsmatch.kyoshubot.model
 
 data class Boshu(val guildId: Long, val channelId: Long, val title: String, var koumokuList: MutableList<Koumoku>) {
 

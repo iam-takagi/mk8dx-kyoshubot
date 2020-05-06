@@ -1,4 +1,4 @@
-package me.notsmatch.kyoshubot.utils
+package me.notsmatch.kyoshubot.model
 
 import net.dv8tion.jda.api.entities.User
 
