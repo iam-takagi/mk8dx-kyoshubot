@@ -2,13 +2,11 @@ package me.notsmatch.kyoshubot.commands
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import me.notsmatch.kyoshubot.utils.Koumoku
-import me.notsmatch.kyoshubot.utils.Manager
+import me.notsmatch.kyoshubot.model.Koumoku
+import me.notsmatch.kyoshubot.Manager
 import me.notsmatch.kyoshubot.utils.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
-import java.text.SimpleDateFormat
-import java.util.*
 
 class AddCommand : Command(){
 
@@ -103,7 +101,14 @@ class AddCommand : Command(){
             }
 
 
-            if(Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(Koumoku(title, hour.toInt(), need.toInt(), mutableListOf()))){
+            if(Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(
+                    Koumoku(
+                        title,
+                        hour.toInt(),
+                        need.toInt(),
+                        mutableListOf()
+                    )
+                )){
 
                 Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList = Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
                     

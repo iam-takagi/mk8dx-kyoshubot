@@ -2,13 +2,11 @@ package me.notsmatch.kyoshubot.commands
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import me.notsmatch.kyoshubot.utils.Manager
+import me.notsmatch.kyoshubot.Manager
 import me.notsmatch.kyoshubot.utils.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 import java.lang.StringBuilder
-import java.text.SimpleDateFormat
-import java.util.*
 
 class DropCommand : Command(){
 
