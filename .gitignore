@@ -1,1 +1,3 @@
-Secret.kt
+/build/
+/src/main/kotlin/me/notsmatch/kyoshubot/secret/
+/.idea/
