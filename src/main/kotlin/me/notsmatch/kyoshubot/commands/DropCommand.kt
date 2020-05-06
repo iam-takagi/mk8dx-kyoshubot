@@ -22,7 +22,7 @@ class DropCommand : Command(){
         event?.apply {
 
             event.message.delete().complete()
-            
+
             val boshu = Manager.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
