@@ -14,7 +14,7 @@ class StartCommand() : Command(){
     init {
         this.name = "start"
         this.help = "募集を開始します"
-        this.arguments = "<タイトル>"
+        this.arguments = "<title>"
     }
 
     override fun execute(event: CommandEvent?) {
