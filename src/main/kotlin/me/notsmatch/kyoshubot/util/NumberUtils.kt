@@ -1,4 +1,4 @@
-package me.notsmatch.kyoshubot.utils
+package me.notsmatch.kyoshubot.util
 
 object NumberUtils {
 
