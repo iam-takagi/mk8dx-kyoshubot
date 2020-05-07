@@ -1,14 +1,14 @@
-package me.notsmatch.kyoshubot.commands
+package me.notsmatch.kyoshubot.command
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import me.notsmatch.kyoshubot.Manager
-import me.notsmatch.kyoshubot.utils.NumberUtils
+import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 import java.lang.StringBuilder
 
-class DropCommand : Command(){
+class DropCommand(val boshuService: BoshuService) : Command(){
 
     init {
         this.name = "d"
@@ -21,7 +21,7 @@ class DropCommand : Command(){
 
             event.message.delete().complete()
 
-            val boshu = Manager.getBoshu(guild.idLong, channel.idLong)
+            val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(

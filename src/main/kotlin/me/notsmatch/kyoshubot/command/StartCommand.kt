@@ -1,12 +1,12 @@
-package me.notsmatch.kyoshubot.commands
+package me.notsmatch.kyoshubot.command
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import me.notsmatch.kyoshubot.Manager
+import me.notsmatch.kyoshubot.service.BoshuService
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 
-class StartCommand() : Command(){
+class StartCommand(val boshuService: BoshuService) : Command(){
 
     init {
         this.name = "start"
@@ -32,8 +32,8 @@ class StartCommand() : Command(){
                     setDescription(":x: タイトルは30文字以下に設定してください")
                 }.build())
             }
-            if (Manager.addBoshu(guild.idLong, channel.idLong, title)) {
-                Manager.getBoshu(guild.idLong, channel.idLong)!!.messageId = channel.sendMessage(
+            if (boshuService.addBoshu(guild.idLong, channel.idLong, title)) {
+                boshuService.getBoshu(guild.idLong, channel.idLong)!!.messageId = channel.sendMessage(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
                         setAuthor(

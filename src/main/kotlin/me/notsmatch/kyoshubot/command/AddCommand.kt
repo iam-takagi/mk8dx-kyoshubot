@@ -1,14 +1,14 @@
-package me.notsmatch.kyoshubot.commands
+package me.notsmatch.kyoshubot.command
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.model.Koumoku
-import me.notsmatch.kyoshubot.Manager
-import me.notsmatch.kyoshubot.utils.NumberUtils
+import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 
-class AddCommand : Command(){
+class AddCommand(val boshuService: BoshuService) : Command(){
 
     init {
         this.name = "add"
@@ -21,7 +21,7 @@ class AddCommand : Command(){
 
             event.message.delete().complete()
 
-            val boshu = Manager.getBoshu(guild.idLong, channel.idLong)
+            val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -88,7 +88,7 @@ class AddCommand : Command(){
                     setDescription(":x: hourは0~24で指定する必要があります。")
                 }.build())
             }
-            else if(!NumberUtils.isInteger(need) || need.toInt() > 12 || need.toInt() < 0){
+            else if(!NumberUtils.isInteger(need) || need.toInt() > 30 || need.toInt() < 0){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -96,12 +96,12 @@ class AddCommand : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: needは0~12で指定する必要があります。")
+                    setDescription(":x: needは30名まで指定可能です")
                 }.build())
             }
 
 
-            if(Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(
+            if(boshuService.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(
                     Koumoku(
                         title,
                         hour.toInt(),
@@ -110,7 +110,7 @@ class AddCommand : Command(){
                     )
                 )){
 
-                Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList = Manager.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
+                boshuService.getBoshu(guild.idLong, channel.idLong)!!.koumokuList = boshuService.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
                     
                 replyInDm(
                     EmbedBuilder().apply {
