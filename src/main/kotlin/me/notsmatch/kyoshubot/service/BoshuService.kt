@@ -1,20 +1,19 @@
-package me.notsmatch.kyoshubot
+package me.notsmatch.kyoshubot.service
 
+import com.mongodb.client.model.Filters
+import me.notsmatch.kyoshubot.Bot
 import me.notsmatch.kyoshubot.model.Boshu
 
-object Manager {
-
-    val boshuList: MutableList<Boshu> = mutableListOf()
+class BoshuService() {
 
     /**
      * @param guildId
-     * @param channelId]
+     * @param channelId
      * @return 募集を返します
      */
     fun getBoshu(guildId: Long, channelId: Long) : Boshu? {
-       val a  = boshuList.stream().filter { it.guildId == guildId && it.channelId == channelId }.findFirst()
-        if(a.isPresent)return a.get()
-        return null
+        val document = Bot.mongoService.findBoshuById(guildId, channelId) ?: return null
+        return Boshu.toBoshu(document)
     }
 
     /**
@@ -25,7 +24,7 @@ object Manager {
      */
     fun addBoshu(guildId: Long, channelId: Long, title: String) : Boolean {
         if (getBoshu(guildId, channelId) != null) return false
-        boshuList.add(Boshu(guildId, channelId, title, mutableListOf()))
+        Bot.mongoService.replaceBoshu(guildId, channelId, Boshu(guildId, channelId, title, mutableListOf()).toDocument())
         return true
     }
 
@@ -38,6 +37,6 @@ object Manager {
     fun removeBoshu(guildId: Long, channelId: Long) : Boolean{
         val boshu = getBoshu(guildId, channelId)
         if(boshu === null)return false
-        return boshuList.remove(boshu)
+        return Bot.mongoService.boshu_collection.deleteOne(Filters.and(Filters.eq("guildId", guildId), Filters.eq("channelId", channelId))).wasAcknowledged()
     }
 }
