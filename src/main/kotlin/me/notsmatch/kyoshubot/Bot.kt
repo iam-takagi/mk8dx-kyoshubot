@@ -1,7 +1,9 @@
 package me.notsmatch.kyoshubot
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder
-import me.notsmatch.kyoshubot.commands.*
+import me.notsmatch.kyoshubot.command.*
+import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.service.MongoService
 import net.dv8tion.jda.api.AccountType
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
@@ -10,7 +12,6 @@ import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.util.*
-import kotlin.concurrent.timerTask
 
 
 class Bot (private val token: String) {
@@ -18,9 +19,12 @@ class Bot (private val token: String) {
     companion object {
         @JvmStatic
         lateinit var instance: Bot
+
+        val mongoService: MongoService = MongoService()
     }
 
     lateinit var jda: JDA
+    val boshuService: BoshuService = BoshuService()
 
     fun start() {
         instance = this
@@ -30,7 +34,7 @@ class Bot (private val token: String) {
         builder.setOwnerId("695218967173922866")
         builder.setPrefix(".")
 
-        builder.addCommands(StartCommand(), EndCommand(), AddCommand(), RemoveCommand(), CanCommand(), DropCommand())
+        builder.addCommands(StartCommand(boshuService), EndCommand(boshuService), AddCommand(boshuService), RemoveCommand(boshuService), CanCommand(boshuService), DropCommand(boshuService))
         builder.setHelpWord("kyoshu")
 
         val client = builder.build()
