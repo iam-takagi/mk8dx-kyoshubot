@@ -1,10 +1,10 @@
 # KyoshuBot
-MK8DXのチーム挙手で役立ちそうなBot
+なんかで役立ちそうな挙手Bot
 
 # Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
 * Botがメッセージを書き換えてくれます(通知を最小限にしたつもり)
-* 不具合報告・欲しい機能の提案 Issuesでお待ちしております
+* バグ報告・欲しい機能の提案 Issuesでお待ちしております
 
 # Install
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
