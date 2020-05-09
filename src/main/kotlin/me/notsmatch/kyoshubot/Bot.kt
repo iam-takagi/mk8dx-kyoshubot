@@ -52,7 +52,8 @@ class Listener : ListenerAdapter() {
         timer.schedule(object : TimerTask() {
             override fun run() {
                 event.jda.apply {
-                    presence.setPresence(OnlineStatus.ONLINE, Activity.watching("type .kyoshu | ${guilds.size} servers"))
+                    presence.setPresence(OnlineStatus.ONLINE, Activity.watching("Maintenance Mode"))
+                    //presence.setPresence(OnlineStatus.ONLINE, Activity.watching("type .kyoshu | ${guilds.size} servers"))
                 }
             }
         }, 0, 1000*300)
