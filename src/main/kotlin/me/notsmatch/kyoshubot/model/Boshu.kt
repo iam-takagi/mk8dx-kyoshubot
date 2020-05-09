@@ -30,6 +30,8 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
             koumokuList.forEach { koumoku ->
                 koumokuArray.add(koumoku.toJsonObject().toString())
             }
+
+            put("koumoku", koumokuArray)
         }
     }
 
