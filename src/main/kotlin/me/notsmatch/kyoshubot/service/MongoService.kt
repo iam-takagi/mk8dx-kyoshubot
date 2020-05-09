@@ -18,7 +18,7 @@ class MongoService {
     val boshu_collection: MongoCollection<Document>
 
     init {
-        this.client = MongoClient(MongoClientURI("MONGODB_URI"))
+        this.client = MongoClient(MongoClientURI("MONGO_URI"))
         this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
         this.boshu_collection = this.database.getCollection("boshu")
     }
