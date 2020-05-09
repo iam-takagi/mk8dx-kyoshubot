@@ -84,7 +84,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
 
                 //募集オブジェクトにしてreturn
                 return Boshu(
-                    document.getLong("guildId"),  document.getLong("channel"), document.getString("title"), document.getLong("messageId"), koumokuList
+                    document.getLong("guildId"),  document.getLong("channelId"), document.getString("title"), document.getLong("messageId"), koumokuList
                 )
             }
         }
