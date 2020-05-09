@@ -1,6 +1,7 @@
 package me.notsmatch.kyoshubot.service
 
 import com.mongodb.MongoClient
+import com.mongodb.MongoClientURI
 import com.mongodb.MongoCredential
 import com.mongodb.ServerAddress
 import com.mongodb.client.MongoCollection
@@ -17,23 +18,7 @@ class MongoService {
     val boshu_collection: MongoCollection<Document>
 
     init {
-        val serverAddress = ServerAddress(System.getenv("MONGO_HOST"), System.getenv("MONGO_PORT").toInt())
-
-        if (System.getenv("MONGO_AUTH_ENABLED").toBoolean()) {
-            val credential = MongoCredential.createCredential(
-                System.getenv("MONGO_AUTH_USERNAME"),
-                System.getenv("MONGO_AUTH_DATABASE"),
-                System.getenv("MONGO_AUTH_PASSWORD").toCharArray()
-            )
-
-            this.client = MongoClient(
-                serverAddress ,
-                listOf<MongoCredential>(credential)
-            )
-        } else {
-            this.client = MongoClient(serverAddress)
-        }
-
+        this.client = MongoClient(MongoClientURI("MONGODB_URI"))
         this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
         this.boshu_collection = this.database.getCollection("boshu")
     }
