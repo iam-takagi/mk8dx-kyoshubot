@@ -21,6 +21,18 @@ class StartCommand(val boshuService: BoshuService) : Command(){
 
             val args = args.split(" ")
             val title = args[0]
+            if(title.isEmpty()){
+                return replyInDm(EmbedBuilder().apply {
+                    setColor(Color.RED)
+                    setAuthor(
+                        "Error",
+                        null,
+                        null
+                    )
+                    setDescription(":x: タイトルを入力してください")
+                }.build())
+            }
+
             if(title.length > 30){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)

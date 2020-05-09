@@ -55,15 +55,16 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                 //JsonArrayから項目リストを作成
                 val koumokuList = mutableListOf<Koumoku>()
                 val docClazz: Class<out MutableList<*>?> = ArrayList<String>().javaClass
-                val array = get("koumoku", docClazz)!!
+                val koumokuArray = get("koumoku", docClazz)!!
 
-                //項目取り出し
-                array.forEach{ str ->
-
-                    //挙手ユーザー取り出し
+                //各項目取り出し koumoku:
+                koumokuArray.forEach{ str ->
                     val koumokuJson = JsonUtils.JSON_PARSER.parse(str.toString()).asJsonObject
-                    val docClazz: Class<out MutableList<*>?> = ArrayList<Long>().javaClass
-                    val kyoshuUsersArray = get("kyoshuUsers", docClazz)!!
+
+                    //koumoku: kyshuUsers:[]
+                    val kyoshuUsersArray = koumokuJson.getAsJsonArray("kyoshuUsers")
+
+                    //格納用
                     val kyoshuUsers = mutableListOf<Long>()
 
                     //挙手ユーザーリストに追加
