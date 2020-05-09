@@ -21,6 +21,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
      */
     fun toDocument() : Document {
         return Document().apply {
+            put("title", title)
             put("channelId", channelId)
             put("guildId", guildId)
             put("messageId", messageId)
