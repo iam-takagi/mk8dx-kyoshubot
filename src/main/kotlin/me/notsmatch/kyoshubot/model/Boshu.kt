@@ -52,20 +52,20 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
         fun toBoshu(document: Document) : Boshu {
             document.apply {
 
-                //JsonArrayから項目リストを作成
+                //格納用
                 val koumokuList = mutableListOf<Koumoku>()
+
                 val docClazz: Class<out MutableList<*>?> = ArrayList<String>().javaClass
                 val koumokuArray = get("koumoku", docClazz)!!
 
                 //各項目取り出し koumoku:
-                koumokuArray.forEach{ str ->
-                    val koumokuJson = JsonUtils.JSON_PARSER.parse(str.toString()).asJsonObject
-
-                    //koumoku: kyshuUsers:[]
-                    val kyoshuUsersArray = koumokuJson.getAsJsonArray("kyoshuUsers")
+                koumokuArray.forEach{str ->
 
                     //格納用
                     val kyoshuUsers = mutableListOf<Long>()
+
+                    val koumokuJson = JsonUtils.JSON_PARSER.parse(str.toString()).asJsonObject
+                    val kyoshuUsersArray = koumokuJson.getAsJsonArray("kyoshuUsers")
 
                     //挙手ユーザーリストに追加
                     kyoshuUsersArray.forEach{ str2 ->
