@@ -2,6 +2,7 @@ package me.notsmatch.kyoshubot.model
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import java.lang.StringBuilder
 
 /**
  * @param title タイトル
@@ -20,14 +21,16 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
         returnJson.addProperty("hour", hour)
         returnJson.addProperty("need", need)
 
-        val array = JsonArray()
-        kyoshuUsers.forEach{ id ->
-            val json = JsonObject()
-            json.addProperty("id", id)
-            array.add(json)
+        val users = StringBuilder()
+        val it = kyoshuUsers.iterator()
+        while (it.hasNext()){
+            users.append(it.next().toString())
+            if(it.hasNext()){
+                users.append(":")
+            }
         }
 
-        returnJson.addProperty("kyoshuUsers", array.toString())
+        returnJson.addProperty("kyoshuUsers", users.toString())
 
         return returnJson
     }

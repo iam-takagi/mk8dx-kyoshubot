@@ -65,12 +65,11 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                     val kyoshuUsers = mutableListOf<Long>()
 
                     val koumokuJson = JsonUtils.JSON_PARSER.parse(str.toString()).asJsonObject
-                    val kyoshuUsersArray = koumokuJson.getAsJsonArray("kyoshuUsers")
+                    val kyoshuUsersStr = koumokuJson.get("kyoshuUsers").asString
 
                     //挙手ユーザーリストに追加
-                    kyoshuUsersArray.forEach{ str2 ->
-                        val kyoshuUserJson = JsonUtils.JSON_PARSER.parse(str2.toString()).asJsonObject
-                        kyoshuUsers.add(kyoshuUserJson.get("id").asLong)
+                    kyoshuUsersStr.split(":").forEach{id ->
+                        kyoshuUsers.add(id.toLong())
                     }
 
                     //項目リストに追加
