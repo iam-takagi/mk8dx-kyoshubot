@@ -41,7 +41,7 @@ class StartCommand(val boshuService: BoshuService) : Command(){
                             null,
                             null
                         )
-                        setDescription("@everyone\nタイトル: " + title + "\n" + "!add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                        setDescription("@everyone\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     }.build()
                 ).complete().idLong
             } else {
