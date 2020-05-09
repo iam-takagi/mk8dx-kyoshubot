@@ -69,7 +69,9 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
 
                     //挙手ユーザーリストに追加
                     kyoshuUsersStr.split(":").forEach{id ->
-                        kyoshuUsers.add(id.toLong())
+                        if(id.isNotEmpty()) {
+                            kyoshuUsers.add(id.toLong())
+                        }
                     }
 
                     //項目リストに追加
