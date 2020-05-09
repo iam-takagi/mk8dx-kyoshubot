@@ -100,6 +100,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                 }.build())
             }
 
+            //項目追加
             if(boshu.koumokuList.add(
                     Koumoku(
                         title,
@@ -110,7 +111,9 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                 )){
 
                 boshu.koumokuList = boshu.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
-                    
+
+                boshu.save()
+
                 replyInDm(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
@@ -124,8 +127,6 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         addField("タイトル", title, true)
                     }.build()
                 )
-
-                boshu.save()
 
                 textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                     setColor(Color.CYAN)
