@@ -5,9 +5,7 @@ import me.notsmatch.kyoshubot.Bot
 import me.notsmatch.kyoshubot.util.JsonUtils
 import org.bson.Document
 
-data class Boshu(val guildId: Long, val channelId: Long, val title: String, var koumokuList: MutableList<Koumoku>) {
-
-    var messageId: Long = 0
+data class Boshu(val guildId: Long, val channelId: Long, val title: String, var messageId: Long, var koumokuList: MutableList<Koumoku>) {
 
     /**
      * @return 時間から項目を返します
@@ -25,6 +23,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
         return Document().apply {
             put("channelId", channelId)
             put("guildId", guildId)
+            put("messageId", messageId)
 
             val koumokuArray = BasicDBList()
 
@@ -83,7 +82,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
 
                 //募集オブジェクトにしてreturn
                 return Boshu(
-                    document.getLong("guildId"),  document.getLong("channel"), document.getString("title"), koumokuList
+                    document.getLong("guildId"),  document.getLong("channel"), document.getString("title"), document.getLong("messageId"), koumokuList
                 )
             }
         }

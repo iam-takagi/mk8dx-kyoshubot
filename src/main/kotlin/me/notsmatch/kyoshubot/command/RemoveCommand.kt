@@ -63,6 +63,9 @@ class RemoveCommand(val boshuService: BoshuService) : Command(){
             }.build())
 
             if(boshu.koumokuList.remove(koumoku)){
+
+                boshu.save()
+
                 replyInDm(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)

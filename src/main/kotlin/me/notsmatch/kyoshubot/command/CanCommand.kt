@@ -76,6 +76,8 @@ class CanCommand(val boshuService: BoshuService) : Command(){
             if(!koumoku.kyoshuUsers.contains(author.idLong)){
                 if(koumoku.kyoshuUsers.add(author.idLong)) {
 
+                    boshu.save()
+
                     textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                         setColor(Color.CYAN)
                         setAuthor(

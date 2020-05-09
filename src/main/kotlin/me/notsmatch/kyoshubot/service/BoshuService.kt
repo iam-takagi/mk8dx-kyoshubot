@@ -24,7 +24,7 @@ class BoshuService() {
      */
     fun addBoshu(guildId: Long, channelId: Long, title: String) : Boolean {
         if (getBoshu(guildId, channelId) != null) return false
-        Bot.mongoService.replaceBoshu(guildId, channelId, Boshu(guildId, channelId, title, mutableListOf()).toDocument())
+        Bot.mongoService.replaceBoshu(guildId, channelId, Boshu(guildId, channelId, title, 0, mutableListOf()).toDocument())
         return true
     }
 

@@ -17,13 +17,13 @@ class MongoService {
     val boshu_collection: MongoCollection<Document>
 
     init {
-        val serverAddress = ServerAddress(System.getenv("mongo.host"), System.getenv("mongo.port").toInt())
+        val serverAddress = ServerAddress(System.getenv("MONGO_HOST"), System.getenv("MONGO_PORT").toInt())
 
-        if (System.getenv("mongo.authentication.enabled").toBoolean()) {
+        if (System.getenv("MONGO_AUTH_ENABLED").toBoolean()) {
             val credential = MongoCredential.createCredential(
-                System.getenv("mongo.authentication.username"),
-                System.getenv("mongo.authentication.database"),
-                System.getenv("mongo.authentication.password").toCharArray()
+                System.getenv("MONGO_AUTH_USERNAME"),
+                System.getenv("MONGO_AUTH_DATABASE"),
+                System.getenv("MONGO_AUTH_PASSWORD").toCharArray()
             )
 
             this.client = MongoClient(
@@ -34,8 +34,8 @@ class MongoService {
             this.client = MongoClient(serverAddress)
         }
 
-        this.database = this.client.getDatabase(System.getenv("mongo.database"))
-        this.boshu_collection = this.database.getCollection(System.getenv("mongo.collections.boshu"))
+        this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
+        this.boshu_collection = this.database.getCollection("boshu")
     }
 
     /**

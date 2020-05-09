@@ -100,8 +100,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                 }.build())
             }
 
-
-            if(boshuService.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.add(
+            if(boshu.koumokuList.add(
                     Koumoku(
                         title,
                         hour.toInt(),
@@ -110,7 +109,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                     )
                 )){
 
-                boshuService.getBoshu(guild.idLong, channel.idLong)!!.koumokuList = boshuService.getBoshu(guild.idLong, channel.idLong)!!.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
+                boshu.koumokuList = boshu.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
                     
                 replyInDm(
                     EmbedBuilder().apply {
@@ -125,6 +124,8 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         addField("タイトル", title, true)
                     }.build()
                 )
+
+                boshu.save()
 
                 textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                     setColor(Color.CYAN)

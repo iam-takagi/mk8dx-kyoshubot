@@ -64,6 +64,9 @@ class DropCommand(val boshuService: BoshuService) : Command(){
 
             if(koumoku.kyoshuUsers.contains(author.idLong)){
                if(koumoku.kyoshuUsers.remove(author.idLong)) {
+
+                   boshu.save()
+
                    textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                        setColor(Color.CYAN)
                        setAuthor(

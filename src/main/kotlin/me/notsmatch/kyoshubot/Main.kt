@@ -1,9 +1,10 @@
 package me.notsmatch.kyoshubot
 
+import io.github.cdimascio.dotenv.dotenv
+
 object Main {
     @JvmStatic
     fun main(args: Array<String>) {
-        val bot = Bot(System.getenv("TOKEN"))
-        bot.start()
+        Bot(System.getenv("TOKEN")).start()
     }
 }
