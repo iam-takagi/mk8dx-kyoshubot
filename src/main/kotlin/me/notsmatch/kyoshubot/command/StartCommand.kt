@@ -33,7 +33,8 @@ class StartCommand(val boshuService: BoshuService) : Command(){
                 }.build())
             }
             if (boshuService.addBoshu(guild.idLong, channel.idLong, title)) {
-                boshuService.getBoshu(guild.idLong, channel.idLong)!!.messageId = channel.sendMessage(
+                val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)!!
+                boshu.messageId = channel.sendMessage(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
                         setAuthor(
@@ -44,6 +45,7 @@ class StartCommand(val boshuService: BoshuService) : Command(){
                         setDescription("@everyone\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     }.build()
                 ).complete().idLong
+                boshu.save()
             } else {
                 replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -52,7 +54,7 @@ class StartCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: このチャンネルでは既に募集が進行しています。 募集を終了するには !end を使用してください。")
+                    setDescription(":x: このチャンネルでは既に募集が開始されています。 募集を終了するには !end を使用してください。")
                 }.build())
             }
         }
