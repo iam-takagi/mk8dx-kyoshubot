@@ -39,7 +39,7 @@ class DropCommand(val boshuService: BoshuService) : Command(){
                 hour = args[0]
             }
 
-            if(!NumberUtils.isInteger(hour) || hour.toInt() > 24 || hour.toInt() < 0){
+            if(!NumberUtils.isInteger(hour) || hour.toInt() > 36 || hour.toInt() < 0){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -47,7 +47,7 @@ class DropCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: hourは0~24で指定する必要があります。")
+                    setDescription(":x: hourは0~36で指定する必要があります。")
                 }.build())
             }
 

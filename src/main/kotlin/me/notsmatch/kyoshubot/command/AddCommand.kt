@@ -77,7 +77,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                     setDescription(":x: titleは30文字以下にする必要があります。")
                 }.build())
             }
-            else if(!NumberUtils.isInteger(hour) || hour.toInt() > 24 || hour.toInt() < 0){
+            else if(!NumberUtils.isInteger(hour) || hour.toInt() > 36 || hour.toInt() < 0){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -85,7 +85,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: hourは0~24で指定する必要があります。")
+                    setDescription(":x: hourは0~36で指定する必要があります。")
                 }.build())
             }
             else if(!NumberUtils.isInteger(need) || need.toInt() > 30 || need.toInt() < 0){
