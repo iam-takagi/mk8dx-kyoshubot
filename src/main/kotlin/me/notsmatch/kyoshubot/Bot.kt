@@ -31,7 +31,7 @@ class Bot (private val token: String) {
         jda = JDABuilder(AccountType.BOT).setToken(token).setStatus(OnlineStatus.ONLINE).build()
         val builder = CommandClientBuilder()
 
-        //builder.setOwnerId("695218967173922866")
+        builder.setOwnerId("695218967173922866")
         builder.setPrefix(".")
 
         builder.addCommands(StartCommand(boshuService), EndCommand(boshuService), AddCommand(boshuService), RemoveCommand(boshuService), CanCommand(boshuService), DropCommand(boshuService))
