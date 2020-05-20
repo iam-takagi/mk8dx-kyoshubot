@@ -1,6 +1,7 @@
 package me.notsmatch.kyoshubot
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder
+import com.mongodb.client.model.Filters
 import me.notsmatch.kyoshubot.command.*
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.MongoService
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.events.ReadyEvent
+import net.dv8tion.jda.api.events.guild.GuildLeaveEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import java.util.*
 
@@ -56,5 +58,11 @@ class Listener : ListenerAdapter() {
                 }
             }
         }, 0, 1000*300)
+    }
+
+    override fun onGuildLeave(event: GuildLeaveEvent) {
+        event.apply {
+            Bot.mongoService.boshu_collection.deleteMany(Filters.eq("guildId", guild.idLong))
+        }
     }
 }
