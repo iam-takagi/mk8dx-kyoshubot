@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Filters
 import com.mongodb.client.model.ReplaceOptions
+import me.notsmatch.kyoshubot.Bot
 import org.bson.Document
 
 
@@ -18,8 +19,15 @@ class MongoService {
     val boshu_collection: MongoCollection<Document>
 
     init {
-        this.client = MongoClient(MongoClientURI(System.getenv("MONGO_URI")))
-        this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
+
+        if(Bot.dev){
+            this.client = MongoClient(ServerAddress("localhost", 27017))
+            this.database = this.client.getDatabase("kyoshubot")
+        }else {
+            this.client = MongoClient(MongoClientURI(System.getenv("MONGO_URI")))
+            this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
+        }
+
         this.boshu_collection = this.database.getCollection("boshu")
     }
 
