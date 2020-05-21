@@ -19,7 +19,8 @@ class DropCommand(val boshuService: BoshuService) : Command(){
     override fun execute(event: CommandEvent?) {
         event?.apply {
 
-            event.message.delete().complete()
+            //挙手を下げたときはログを残す
+            //event.message.delete().complete()
 
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
