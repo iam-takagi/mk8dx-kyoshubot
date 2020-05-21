@@ -6,6 +6,7 @@ import me.notsmatch.kyoshubot.model.Koumoku
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
+import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
 class AddCommand(val boshuService: BoshuService) : Command(){
@@ -32,7 +33,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                     setDescription(":x: このチャンネルでは募集が開始されていません。")
                 }.build())
 
-            val args = args.split(" ")
+            val args = StringUtils.split(args)
             var title: String = ""
             var hour: String = ""
             var need: String = ""

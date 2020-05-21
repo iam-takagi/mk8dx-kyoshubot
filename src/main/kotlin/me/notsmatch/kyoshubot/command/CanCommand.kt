@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
+import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 import java.lang.StringBuilder
 
@@ -31,7 +32,7 @@ class CanCommand(val boshuService: BoshuService) : Command(){
                     setDescription(":x: このチャンネルでは募集が開始されていません。")
                 }.build())
 
-            val args = args.split(" ")
+            val args = StringUtils.split(args)
 
             var hour: String = ""
             if (args.size >= 1) {

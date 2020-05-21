@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
 import net.dv8tion.jda.api.EmbedBuilder
+import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
 class StartCommand(val boshuService: BoshuService) : Command(){
@@ -19,7 +20,7 @@ class StartCommand(val boshuService: BoshuService) : Command(){
 
             event.message.delete().complete()
 
-            val args = args.split(" ")
+            val args = StringUtils.split(args)
             val title = args[0]
             if(title.isEmpty()){
                 return replyInDm(EmbedBuilder().apply {
