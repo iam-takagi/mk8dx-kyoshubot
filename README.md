@@ -1,13 +1,12 @@
 # KyoshuBot
 なんかで役立ちそうな挙手Bot
 
+https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
+
 # Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
 * Botがメッセージを書き換えてくれます(通知を最小限にしたつもり)
 * バグ報告・欲しい機能の提案 Issuesでお待ちしております
-
-# Install
-https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
 # Usage
 hourは0-36で指定してください (時間)
