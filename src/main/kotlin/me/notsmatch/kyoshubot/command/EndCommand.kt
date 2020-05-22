@@ -50,7 +50,7 @@ class EndCommand(val boshuService: BoshuService) : Command(){
                             k.kyoshuUsers.forEach { id ->
                                 val member = guild.getMemberById(id)
                                 if (member != null) {
-                                    b.append(member.asMention)
+                                    b.append(member.nickname)
                                 }
                             }
                         }

@@ -21,9 +21,6 @@ class DropCommand(val boshuService: BoshuService, val mentionService: MentionSer
     override fun execute(event: CommandEvent?) {
         event?.apply {
 
-            //挙手を下げたときはログを残す
-            //event.message.delete().complete()
-
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -87,7 +84,7 @@ class DropCommand(val boshuService: BoshuService, val mentionService: MentionSer
                                         k.kyoshuUsers.forEach { id ->
                                             val member = guild.getMemberById(id)
                                             if (member != null) {
-                                                b.append(member.asMention)
+                                                b.append(member.nickname)
                                             }
                                         }
                                     }
