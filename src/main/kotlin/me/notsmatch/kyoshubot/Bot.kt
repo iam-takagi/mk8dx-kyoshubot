@@ -76,6 +76,7 @@ class Listener : ListenerAdapter() {
     override fun onGuildLeave(event: GuildLeaveEvent) {
         event.apply {
             Bot.mongoService.boshu_collection.deleteMany(Filters.eq("guildId", guild.idLong))
+            Bot.mongoService.mention_collection.deleteMany(Filters.eq("guildId", guild.idLong))
         }
     }
 }
