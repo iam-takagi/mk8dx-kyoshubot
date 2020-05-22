@@ -9,6 +9,15 @@ object NumberUtils {
         } catch (nfex: NumberFormatException) {
             return false
         }
+    }
+
+    fun isLong (`val`: String): Boolean {
+        try {
+            java.lang.Long.parseLong(`val`)
+            return true
+        } catch (nfex: NumberFormatException) {
+            return false
+        }
 
     }
 
