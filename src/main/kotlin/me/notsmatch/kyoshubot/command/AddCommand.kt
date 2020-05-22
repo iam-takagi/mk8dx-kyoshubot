@@ -138,7 +138,7 @@ class AddCommand(val boshuService: BoshuService, val mentionService: MentionServ
                         null,
                         null
                     )
-                    val builder = StringBuilder("${mentionService.getMentionByGuildId(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                    val builder = StringBuilder("${mentionService.getMentionByGuild(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     builder.append("==========================\n")
                     val it = boshu.koumokuList.iterator()
                     while (it.hasNext()){

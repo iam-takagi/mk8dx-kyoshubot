@@ -27,7 +27,7 @@ class EndCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: このチャンネルでは募集が開始されていません。")
+                    setDescription("このチャンネルでは募集が開始されていません。")
                 }.build())
 
             if(boshuService.removeBoshu(guild.idLong, channel.idLong)){

@@ -3,13 +3,14 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.service.MentionService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 import java.lang.StringBuilder
 
-class RemoveCommand(val boshuService: BoshuService) : Command(){
+class RemoveCommand(val boshuService: BoshuService, val mentionService: MentionService) : Command(){
 
     init {
         this.name = "remove"
@@ -30,7 +31,7 @@ class RemoveCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: このチャンネルでは募集が開始されていません。")
+                    setDescription("このチャンネルでは募集が開始されていません。")
                 }.build())
 
             val args = StringUtils.split(args)
@@ -48,7 +49,7 @@ class RemoveCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: hourは0~24で指定する必要があります。")
+                    setDescription("hourは0~24で指定する必要があります。")
                 }.build())
             }
 
@@ -60,7 +61,7 @@ class RemoveCommand(val boshuService: BoshuService) : Command(){
                     null,
                     null
                 )
-                setDescription(":x: ${hour}時の項目は存在しません")
+                setDescription("${hour}時の項目は存在しません")
             }.build())
 
             if(boshu.koumokuList.remove(koumoku)){
@@ -84,7 +85,7 @@ class RemoveCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    val builder = StringBuilder("@everyone\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                    val builder = StringBuilder("${mentionService.getMentionByGuild(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     builder.append("==========================\n")
                     val it = boshu.koumokuList.iterator()
                     while (it.hasNext()) {
