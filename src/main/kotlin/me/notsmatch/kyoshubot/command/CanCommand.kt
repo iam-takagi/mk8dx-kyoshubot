@@ -15,7 +15,7 @@ class CanCommand(val boshuService: BoshuService, val mentionService: MentionServ
     init {
         this.name = "c"
         this.help = "時間を指定して挙手します"
-        this.arguments = "<hour>"
+        this.arguments = "<hour1> <hour2> <hour3>..."
     }
 
     override fun execute(event: CommandEvent?) {

@@ -15,7 +15,7 @@ class DropCommand(val boshuService: BoshuService, val mentionService: MentionSer
     init {
         this.name = "d"
         this.help = "時間を指定して挙手を下ろします"
-        this.arguments = "<hour>"
+        this.arguments = "<hour1> <hour2> <hour3>..."
     }
 
     override fun execute(event: CommandEvent?) {
