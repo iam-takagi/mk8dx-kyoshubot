@@ -4,12 +4,13 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.model.Koumoku
 import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.service.MentionService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
-class AddCommand(val boshuService: BoshuService) : Command(){
+class AddCommand(val boshuService: BoshuService, val mentionService: MentionService) : Command(){
 
     init {
         this.name = "add"
@@ -30,7 +31,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: このチャンネルでは募集が開始されていません。")
+                    setDescription("このチャンネルでは募集が開始されていません。")
                 }.build())
 
             val args = StringUtils.split(args)
@@ -50,7 +51,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: !add <title> <hour> <need>")
+                    setDescription("!add <title> <hour> <need>")
                 }.build())
             }
 
@@ -63,7 +64,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: ${hour}時は既に項目が存在します")
+                    setDescription("${hour}時は既に項目が存在します")
                 }.build())
             }
 
@@ -75,7 +76,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: titleは30文字以下にする必要があります。")
+                    setDescription("titleは30文字以下にする必要があります。")
                 }.build())
             }
             else if(!NumberUtils.isInteger(hour) || hour.toInt() > 36 || hour.toInt() < 0){
@@ -86,7 +87,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: hourは0~36で指定する必要があります。")
+                    setDescription("hourは0~36で指定する必要があります。")
                 }.build())
             }
             else if(!NumberUtils.isInteger(need) || need.toInt() > 30 || need.toInt() < 0){
@@ -97,7 +98,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    setDescription(":x: needは30名まで指定可能です")
+                    setDescription("needは30名まで指定可能です")
                 }.build())
             }
 
@@ -115,6 +116,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
 
                 boshu.save()
 
+                /*
                 replyInDm(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
@@ -127,7 +129,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         addField("募集人数", need + "人", true)
                         addField("タイトル", title, true)
                     }.build()
-                )
+                )*/
 
                 textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                     setColor(Color.CYAN)
@@ -136,7 +138,7 @@ class AddCommand(val boshuService: BoshuService) : Command(){
                         null,
                         null
                     )
-                    val builder = StringBuilder("@everyone\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                    val builder = StringBuilder("${mentionService.getMentionByGuildId(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     builder.append("==========================\n")
                     val it = boshu.koumokuList.iterator()
                     while (it.hasNext()){
