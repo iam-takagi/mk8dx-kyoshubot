@@ -51,7 +51,7 @@ class EndCommand(val boshuService: BoshuService) : Command(){
                             k.kyoshuUsers.forEach { id ->
                                 val member = guild.getMemberById(id)
                                 if (member != null) {
-                                    b.append(DiscordUtils.getName(member))
+                                    b.append(DiscordUtils.getName(member) + " ")
                                 }
                             }
                         }
