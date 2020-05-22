@@ -3,6 +3,7 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 import java.lang.StringBuilder
@@ -50,7 +51,7 @@ class EndCommand(val boshuService: BoshuService) : Command(){
                             k.kyoshuUsers.forEach { id ->
                                 val member = guild.getMemberById(id)
                                 if (member != null) {
-                                    b.append(member.nickname)
+                                    b.append(DiscordUtils.getName(member))
                                 }
                             }
                         }

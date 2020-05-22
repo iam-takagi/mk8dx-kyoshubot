@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.MentionService
+import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
@@ -96,7 +97,7 @@ class CanCommand(val boshuService: BoshuService, val mentionService: MentionServ
                                         k.kyoshuUsers.forEach { id ->
                                             val member = guild.getMemberById(id)
                                             if (member != null) {
-                                                b.append(member.nickname)
+                                                b.append(DiscordUtils.getName(member))
                                             }
                                         }
                                     }

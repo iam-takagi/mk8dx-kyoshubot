@@ -1,6 +1,7 @@
 package me.notsmatch.kyoshubot.service
 
 import me.notsmatch.kyoshubot.Bot
+import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Guild
 import org.bson.Document
@@ -61,7 +62,7 @@ class MentionService(val boshuService: BoshuService) {
                         k.kyoshuUsers.forEach { id ->
                             val member = guild.getMemberById(id)
                             if (member != null) {
-                                b.append(member.nickname)
+                                b.append(DiscordUtils.getName(member))
                             }
                         }
                     }
