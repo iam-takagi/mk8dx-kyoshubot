@@ -17,6 +17,9 @@ class MentionService(val boshuService: BoshuService) {
             if(doc.getString("mention").equals("here")){
                 return "@here"
             }
+            if(doc.getString("mention").equals("everyone")){
+                return "@everyone"
+            }
             val role = guild.getRoleById(doc.getString("mention"))
             if(role == null){
                 setMention(guild.idLong,"everyone")
