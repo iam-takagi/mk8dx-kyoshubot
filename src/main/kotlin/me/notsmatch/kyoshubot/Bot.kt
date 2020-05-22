@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder
 import com.mongodb.client.model.Filters
 import me.notsmatch.kyoshubot.command.*
 import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.service.MentionService
 import me.notsmatch.kyoshubot.service.MongoService
 import net.dv8tion.jda.api.AccountType
 import net.dv8tion.jda.api.JDA
@@ -23,10 +24,13 @@ class Bot (private val token: String) {
         lateinit var instance: Bot
 
         val mongoService: MongoService = MongoService()
+
+        val dev = true
     }
 
     lateinit var jda: JDA
     val boshuService: BoshuService = BoshuService()
+    val mentionService: MentionService = MentionService(boshuService)
 
     fun start() {
         instance = this
@@ -36,7 +40,16 @@ class Bot (private val token: String) {
         builder.setOwnerId("695218967173922866")
         builder.setPrefix(".")
 
-        builder.addCommands(StartCommand(boshuService), EndCommand(boshuService), AddCommand(boshuService), RemoveCommand(boshuService), CanCommand(boshuService), DropCommand(boshuService))
+        builder.addCommands(
+            StartCommand(boshuService, mentionService),
+            EndCommand(boshuService),
+            AddCommand(boshuService, mentionService),
+            RemoveCommand(boshuService, mentionService),
+            CanCommand(boshuService, mentionService),
+            DropCommand(boshuService, mentionService),
+            SetMentionCommand(mentionService)
+        )
+
         builder.setHelpWord("kyoshu")
 
         val client = builder.build()
