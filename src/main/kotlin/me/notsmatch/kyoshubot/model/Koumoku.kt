@@ -12,6 +12,13 @@ import java.lang.StringBuilder
  */
 data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUsers: MutableList<Long>) {
 
+    fun kyoshuSizeText() : String {
+        if(kyoshuUsers.size >= need){
+            return "〆"
+        }
+        return "@${need-kyoshuUsers.size}"
+    }
+
     /**
      * @return JsonObjectにして返します
      */
