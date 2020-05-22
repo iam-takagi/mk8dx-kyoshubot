@@ -57,7 +57,6 @@ class StartCommand(val boshuService: BoshuService, val mentionService: MentionSe
                             null,
                             null
                         )
-                        guild.roles
                         setDescription("${mentionService.getMentionByGuild(guild)}\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     }.build()
                 ).complete().idLong
