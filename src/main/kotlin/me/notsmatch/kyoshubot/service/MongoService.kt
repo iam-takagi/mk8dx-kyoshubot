@@ -23,13 +23,9 @@ class MongoService {
 
     init {
 
-        if(Bot.dev){
-            this.client = MongoClient(ServerAddress("localhost", 27017))
-            this.database = this.client.getDatabase("kyoshubot")
-        }else {
-            this.client = MongoClient(MongoClientURI(System.getenv("MONGO_URI")))
-            this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
-        }
+        this.client = MongoClient(ServerAddress("localhost", 27017))
+        this.database = this.client.getDatabase("kyoshubot")
+
 
         this.boshu_collection = this.database.getCollection("boshu")
         this.mention_collection = this.database.getCollection("mention")

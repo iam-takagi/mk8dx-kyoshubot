@@ -24,8 +24,6 @@ class Bot (private val token: String) {
         lateinit var instance: Bot
 
         val mongoService: MongoService = MongoService()
-
-        val dev = false
     }
 
     lateinit var jda: JDA
