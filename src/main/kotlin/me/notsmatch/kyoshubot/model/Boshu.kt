@@ -49,7 +49,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
          * @return Documentから募集オブジェクトにして返します
          */
 
-        fun toBoshu(document: Document) : Boshu {
+        fun fromDocument(document: Document) : Boshu {
             document.apply {
 
                 //格納用
