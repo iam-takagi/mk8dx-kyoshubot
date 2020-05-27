@@ -20,7 +20,7 @@ class SetMentionCommand(val mentionService: MentionService) : Command() {
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-            if(member.hasPermission(Permission.ADMINISTRATOR)){
+            if(!member.hasPermission(Permission.ADMINISTRATOR)){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(

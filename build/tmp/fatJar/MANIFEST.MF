@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Implementation-Title: KyoshuBot
-Implementation-Version: 1.0.4-SNAPSHOT
+Implementation-Version: 1.0.5-SNAPSHOT
 Main-Class: me.notsmatch.kyoshubot.Main
 
