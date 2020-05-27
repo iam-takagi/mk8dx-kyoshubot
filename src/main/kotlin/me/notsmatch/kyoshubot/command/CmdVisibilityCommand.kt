@@ -15,7 +15,7 @@ class CmdVisibilityCommand (val boshuService: BoshuService, val settingsService:
 
     init {
         this.name = "cv"
-        this.help = "コマンドの表示切り替え | trueで表示, falseで非表示。 デフォルトは非表示です"
+        this.help = "コマンドの表示切り替え | trueで表示, falseで非表示。 デフォルト: false\nUsage:\n.cv d true\n.cv d false"
         this.arguments = "<command> <true|false>"
     }
 
