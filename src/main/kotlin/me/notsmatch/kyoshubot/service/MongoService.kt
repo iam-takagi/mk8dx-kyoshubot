@@ -29,7 +29,7 @@ class MongoService {
 
 
         this.boshu_collection = this.database.getCollection("boshu")
-        this.guild_settings_collection = this.database.getCollection("mention")
+        this.guild_settings_collection = this.database.getCollection("settings")
     }
 
     /**
