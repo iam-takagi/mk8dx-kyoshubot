@@ -19,7 +19,8 @@ class MongoService {
     val client: MongoClient
     val database: MongoDatabase
     val boshu_collection: MongoCollection<Document>
-    val mention_collection: MongoCollection<Document>
+    val guild_settings_collection: MongoCollection<Document>
+
 
     init {
 
@@ -28,7 +29,7 @@ class MongoService {
 
 
         this.boshu_collection = this.database.getCollection("boshu")
-        this.mention_collection = this.database.getCollection("mention")
+        this.guild_settings_collection = this.database.getCollection("mention")
     }
 
     /**
@@ -51,8 +52,8 @@ class MongoService {
     /**
      * @param guildId
      */
-    fun findMentionDocById(guildId: Long): Document? {
-        return this.mention_collection.find(Filters.and(Filters.eq("guildId", guildId))).first() ?: return null
+    fun findGuildSettingsDocById(guildId: Long): Document? {
+        return this.guild_settings_collection.find(Filters.and(Filters.eq("guildId", guildId))).first() ?: return null
     }
 
     /**
@@ -67,8 +68,8 @@ class MongoService {
         )
     }
 
-    fun replaceMentionDoc(guildId: Long, document: Document) {
-        this.mention_collection.replaceOne(
+    fun replaceGuildSettings(guildId: Long, document: Document) {
+        this.guild_settings_collection.replaceOne(
             Filters.and(Filters.eq("guildId", guildId)), document,
             ReplaceOptions().upsert(true)
         )
