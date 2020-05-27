@@ -23,10 +23,10 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
      * @return JsonObjectにして返します
      */
     fun toJsonObject() : JsonObject {
-        val returnJson = JsonObject()
-        returnJson.addProperty("title", title)
-        returnJson.addProperty("hour", hour)
-        returnJson.addProperty("need", need)
+        val toReturn = JsonObject()
+        toReturn.addProperty("title", title)
+        toReturn.addProperty("hour", hour)
+        toReturn.addProperty("need", need)
 
         val users = StringBuilder()
         val it = kyoshuUsers.iterator()
@@ -37,8 +37,8 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
             }
         }
 
-        returnJson.addProperty("kyoshuUsers", users.toString())
+        toReturn.addProperty("kyoshuUsers", users.toString())
 
-        return returnJson
+        return toReturn
     }
 }

@@ -3,7 +3,6 @@ package me.notsmatch.kyoshubot.service
 import com.mongodb.client.model.Filters
 import me.notsmatch.kyoshubot.Bot
 import me.notsmatch.kyoshubot.model.Boshu
-import org.bson.Document
 
 class BoshuService {
 
@@ -14,13 +13,13 @@ class BoshuService {
      */
     fun getBoshu(guildId: Long, channelId: Long) : Boshu? {
         val document = Bot.mongoService.findBoshuByGuildAndChannel(guildId, channelId) ?: return null
-        return Boshu.toBoshu(document)
+        return Boshu.fromDocument(document)
     }
 
     fun getBoshuByGuildId(guildId: Long) : List<Boshu>?{
         val toReturn = arrayListOf<Boshu>()
         val documents = Bot.mongoService.findBoshuByGuild(guildId) ?: return null
-        documents.forEach { document -> toReturn.add(Boshu.toBoshu(document))}
+        documents.forEach { document -> toReturn.add(Boshu.fromDocument(document))}
         return toReturn
     }
 
