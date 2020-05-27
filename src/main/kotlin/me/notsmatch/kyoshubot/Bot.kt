@@ -25,15 +25,19 @@ class Bot (private val token: String) {
 
         @JvmStatic
         val mongoService: MongoService = MongoService()
+
+        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start")
     }
 
     lateinit var jda: JDA
     val boshuService: BoshuService = BoshuService()
     val settingsService: GuildSettingsService = GuildSettingsService(mongoService, boshuService)
 
+
     fun start() {
         instance = this
         jda = JDABuilder(AccountType.BOT).setToken(token).setStatus(OnlineStatus.ONLINE).build()
+
         val builder = CommandClientBuilder()
 
         builder.setOwnerId("695218967173922866")
@@ -41,13 +45,14 @@ class Bot (private val token: String) {
 
         builder.addCommands(
             StartCommand(boshuService, settingsService),
-            EndCommand(boshuService),
+            EndCommand(boshuService, settingsService),
             AddCommand(boshuService, settingsService),
             RemoveCommand(boshuService, settingsService),
             CanCommand(boshuService, settingsService),
             DropCommand(boshuService, settingsService),
-            SetMentionCommand(settingsService),
-            ResendCommand(boshuService, settingsService)
+            ResendCommand(boshuService, settingsService),
+            CmdVisibilityCommand(boshuService, settingsService),
+            SetMentionCommand(settingsService)
         )
 
         builder.setHelpWord("kyoshu")
