@@ -7,7 +7,7 @@ import me.notsmatch.kyoshubot.util.JsonUtils
 import net.dv8tion.jda.api.entities.Guild
 import org.bson.Document
 
-data class CommandOption(val command: String, val visibility: Boolean) {
+data class CommandOption(val command: String, var visibility: Boolean) {
 
     fun toJsonObject() : JsonObject {
         val toReturn = JsonObject()
@@ -36,6 +36,10 @@ data class GuildSettings(val guildId: Long, var mention: String?, val commandOpt
 
     fun save() {
         Bot.mongoService.replaceGuildSettings(guildId, toDocument())
+    }
+
+    fun getCommandOption(command: String) : CommandOption?{
+        return commandOptions.find { option -> option.command == command }
     }
 
     fun getMentionString(guild: Guild) : String {
