@@ -6,6 +6,7 @@ import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.MentionService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.Permission
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
@@ -19,6 +20,18 @@ class SetMentionCommand(val mentionService: MentionService) : Command() {
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
+            if(member.hasPermission(Permission.ADMINISTRATOR)){
+                return replyInDm(EmbedBuilder().apply {
+                    setColor(Color.RED)
+                    setAuthor(
+                        "Error",
+                        null,
+                        null
+                    )
+                    setDescription("You don't have a permission: ADMINISTRATOR")
+                }.build())
+            }
+
             val args = StringUtils.split(args)
             if(args.isEmpty()){
                 return replyInDm(EmbedBuilder().apply {
