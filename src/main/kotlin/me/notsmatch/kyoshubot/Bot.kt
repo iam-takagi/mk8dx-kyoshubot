@@ -23,6 +23,7 @@ class Bot (private val token: String) {
         @JvmStatic
         lateinit var instance: Bot
 
+        @JvmStatic
         val mongoService: MongoService = MongoService()
     }
 
@@ -45,7 +46,8 @@ class Bot (private val token: String) {
             RemoveCommand(boshuService, mentionService),
             CanCommand(boshuService, mentionService),
             DropCommand(boshuService, mentionService),
-            SetMentionCommand(mentionService)
+            SetMentionCommand(mentionService),
+            ResendCommand(boshuService, mentionService)
         )
 
         builder.setHelpWord("kyoshu")
