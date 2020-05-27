@@ -20,6 +20,13 @@ class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
+
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if (settings.getCommandOption("setmention") == null || !settings.getCommandOption("setmention")!!.visibility) {
+                event.message.delete().complete()
+            }
+
             if(!member.hasPermission(Permission.ADMINISTRATOR)){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -44,8 +51,6 @@ class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
                     setDescription("``.setmention <role_id | everyone | here>``")
                 }.build())
             }
-
-            val settings = settingsService.getGuildSettings(guild.idLong)
 
             if(args[0].equals("everyone", true)){
                 settings.apply {

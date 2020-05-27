@@ -19,7 +19,11 @@ class StartCommand(val boshuService: BoshuService, val settingsService: GuildSet
     override fun execute(event: CommandEvent?) {
         event?.apply {
 
-            event.message.delete().complete()
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if (settings.getCommandOption("start") == null || !settings.getCommandOption("start")!!.visibility) {
+                event.message.delete().complete()
+            }
 
             val args = StringUtils.split(args)
             if(args.isEmpty()){

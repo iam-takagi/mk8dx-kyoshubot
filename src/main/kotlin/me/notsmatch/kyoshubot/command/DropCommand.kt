@@ -21,6 +21,11 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if (settings.getCommandOption("d") == null || !settings.getCommandOption("d")!!.visibility) {
+                event.message.delete().complete()
+            }
 
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
@@ -65,8 +70,6 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
                         if (koumoku.kyoshuUsers.remove(author.idLong)) {
 
                             boshu.save()
-
-                            val settings = settingsService.getGuildSettings(guild.idLong)
 
                             textChannel.editMessageById(boshu.messageId, EmbedBuilder().apply {
                                 setColor(Color.CYAN)

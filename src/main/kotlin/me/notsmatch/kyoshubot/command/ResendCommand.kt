@@ -19,7 +19,11 @@ class ResendCommand (val boshuService: BoshuService,  val settingsService: Guild
     override fun execute(event: CommandEvent?) {
         event?.apply {
 
-            event.message.delete().complete()
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if (settings.getCommandOption("resend") == null || !settings.getCommandOption("resend")!!.visibility) {
+                event.message.delete().complete()
+            }
 
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
@@ -31,8 +35,6 @@ class ResendCommand (val boshuService: BoshuService,  val settingsService: Guild
                     )
                     setDescription("このチャンネルでは募集が開始されていません。")
                 }.build())
-
-            val settings = settingsService.getGuildSettings(guild.idLong)
 
             boshu.messageId = channel.sendMessage(
                     EmbedBuilder().apply {

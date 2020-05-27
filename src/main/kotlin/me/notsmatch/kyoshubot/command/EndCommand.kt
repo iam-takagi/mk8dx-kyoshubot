@@ -3,12 +3,13 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
+import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 import java.lang.StringBuilder
 
-class EndCommand(val boshuService: BoshuService) : Command(){
+class EndCommand(val boshuService: BoshuService, val settingsService: GuildSettingsService) : Command(){
 
     init {
         this.name = "end"
@@ -17,8 +18,11 @@ class EndCommand(val boshuService: BoshuService) : Command(){
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
+            val settings = settingsService.getGuildSettings(guild.idLong)
 
-            event.message.delete().complete()
+            if (settings.getCommandOption("end") == null || !settings.getCommandOption("end")!!.visibility) {
+                event.message.delete().complete()
+            }
 
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {

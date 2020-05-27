@@ -21,7 +21,11 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-            event.message.delete().complete()
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if (settings.getCommandOption("c") == null || !settings.getCommandOption("c")!!.visibility) {
+                event.message.delete().complete()
+            }
 
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
@@ -77,8 +81,6 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         if (koumoku.kyoshuUsers.add(author.idLong)) {
 
                             boshu.save()
-
-                            val settings = settingsService.getGuildSettings(guild.idLong)
 
                             textChannel.editMessageById(boshu.messageId, EmbedBuilder().apply {
                                 setColor(Color.CYAN)

@@ -22,7 +22,11 @@ class RemoveCommand(val boshuService: BoshuService,  val settingsService: GuildS
     override fun execute(event: CommandEvent?) {
         event?.apply {
 
-            event.message.delete().complete()
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if (settings.getCommandOption("remove") == null || !settings.getCommandOption("remove")!!.visibility) {
+                event.message.delete().complete()
+            }
 
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
@@ -79,8 +83,6 @@ class RemoveCommand(val boshuService: BoshuService,  val settingsService: GuildS
                         )
                     }.build()
                 )
-
-                val settings = settingsService.getGuildSettings(guild.idLong)
 
                 textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                     setColor(Color.CYAN)
