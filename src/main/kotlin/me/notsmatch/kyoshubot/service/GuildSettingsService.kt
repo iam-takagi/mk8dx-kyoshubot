@@ -1,44 +1,28 @@
 package me.notsmatch.kyoshubot.service
 
-import me.notsmatch.kyoshubot.Bot
+import me.notsmatch.kyoshubot.model.CommandOption
+import me.notsmatch.kyoshubot.model.GuildSettings
 import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Guild
-import org.bson.Document
 import java.awt.Color
 import java.lang.StringBuilder
 
-class MentionService(val boshuService: BoshuService) {
+class GuildSettingsService(val mongoService: MongoService, val boshuService: BoshuService) {
 
-    fun getMentionByGuild(guild: Guild) : String {
-        val doc = Bot.mongoService.findMentionDocById(guild.idLong)
-        if(doc == null){
-            return "@everyone"
-        } else {
-            if(doc.getString("mention").equals("here")){
-                return "@here"
+    fun getGuildSettings(guildId: Long) : GuildSettings {
+        mongoService.apply {
+            val doc = findGuildSettingsDocById(guildId)
+            if(doc == null){
+                val settings = GuildSettings(guildId, "everyone", mutableListOf())
+                replaceGuildSettings(guildId, settings.toDocument())
+                return settings
             }
-            if(doc.getString("mention").equals("everyone")){
-                return "@everyone"
-            }
-            val role = guild.getRoleById(doc.getString("mention"))
-            if(role == null){
-                setMention(guild.idLong,"everyone")
-                return "@everyone"
-            }
-            if(!role.isMentionable){
-                setMention(guild.idLong,"everyone")
-                return "@everyone"
-            }
-            return role.asMention
+            return GuildSettings.fromDocument(doc)
         }
     }
 
-    fun setMention(guildId: Long, mention: String) {
-        Bot.mongoService.replaceMentionDoc(guildId, Document().apply { append("guildId", guildId); append("mention", mention) })
-    }
-
-    fun updateMention(guild: Guild) {
+    fun updateMention(guild: Guild, settings: GuildSettings) {
         val boshuList = boshuService.getBoshuByGuildId(guild.idLong) ?: return
         boshuList.forEach { boshu ->
             val textChannel = guild.getTextChannelById(boshu.channelId)
@@ -50,7 +34,7 @@ class MentionService(val boshuService: BoshuService) {
                     null
                 )
                 val builder =
-                    StringBuilder("${getMentionByGuild(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                    StringBuilder("${settings.getMentionString(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                 builder.append("==========================\n")
                 val it = boshu.koumokuList.iterator()
                 while (it.hasNext()) {
