@@ -14,7 +14,7 @@ class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
 
     init {
         this.name = "setmention"
-        this.help = "メンションを変更します\n使用例\n.setmention everyone\n.setmention here\n.setmention 713167475885473792"
+        this.help = "メンションを変更します\nUsage:\n.setmention everyone\n.setmention here\n.setmention 713167475885473792"
         this.arguments = "<role_id | everyone | here>"
     }
 
