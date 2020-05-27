@@ -3,14 +3,14 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
-import me.notsmatch.kyoshubot.service.MentionService
+import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
-class SetMentionCommand(val mentionService: MentionService) : Command() {
+class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
 
     init {
         this.name = "setmention"
@@ -45,10 +45,13 @@ class SetMentionCommand(val mentionService: MentionService) : Command() {
                 }.build())
             }
 
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
             if(args[0].equals("everyone", true)){
-                mentionService.apply {
-                    setMention(guild.idLong, "everyone")
-                    updateMention(guild)
+                settings.apply {
+                    mention = "everyone"
+                    save()
+                    settingsService.updateMention(guild, settings)
                 }
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.CYAN)
@@ -62,9 +65,10 @@ class SetMentionCommand(val mentionService: MentionService) : Command() {
             }
 
             else if(args[0].equals("here", true)){
-                mentionService.apply {
-                    setMention(guild.idLong, "here")
-                    updateMention(guild)
+                settings.apply {
+                    mention = "here"
+                    save()
+                    settingsService.updateMention(guild, settings)
                 }
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.CYAN)
@@ -114,9 +118,10 @@ class SetMentionCommand(val mentionService: MentionService) : Command() {
                     }.build())
                 }
 
-                mentionService.apply {
-                    mentionService.setMention(guild.idLong, args[0])
-                    updateMention(guild)
+                settings.apply {
+                    mention = args[0]
+                    save()
+                    settingsService.updateMention(guild, settings)
                 }
             }
         }

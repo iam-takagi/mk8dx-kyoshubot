@@ -3,12 +3,12 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
-import me.notsmatch.kyoshubot.service.MentionService
+import me.notsmatch.kyoshubot.service.GuildSettingsService
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
-class StartCommand(val boshuService: BoshuService, val mentionService: MentionService) : Command(){
+class StartCommand(val boshuService: BoshuService, val settingsService: GuildSettingsService) : Command(){
 
     init {
         this.name = "start"
@@ -49,6 +49,9 @@ class StartCommand(val boshuService: BoshuService, val mentionService: MentionSe
             }
             if (boshuService.addBoshu(guild.idLong, channel.idLong, title)) {
                 val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)!!
+
+                val settings = settingsService.getGuildSettings(guild.idLong)
+
                 boshu.messageId = channel.sendMessage(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
@@ -57,7 +60,7 @@ class StartCommand(val boshuService: BoshuService, val mentionService: MentionSe
                             null,
                             null
                         )
-                        setDescription("${mentionService.getMentionByGuild(guild)}\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                        setDescription("${settings.getMentionString(guild)}\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     }.build()
                 ).complete().idLong
                 boshu.save()

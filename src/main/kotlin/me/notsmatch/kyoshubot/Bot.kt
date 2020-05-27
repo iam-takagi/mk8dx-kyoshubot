@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder
 import com.mongodb.client.model.Filters
 import me.notsmatch.kyoshubot.command.*
 import me.notsmatch.kyoshubot.service.BoshuService
-import me.notsmatch.kyoshubot.service.MentionService
+import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.service.MongoService
 import net.dv8tion.jda.api.AccountType
 import net.dv8tion.jda.api.JDA
@@ -29,7 +29,7 @@ class Bot (private val token: String) {
 
     lateinit var jda: JDA
     val boshuService: BoshuService = BoshuService()
-    val mentionService: MentionService = MentionService(boshuService)
+    val settingsService: GuildSettingsService = GuildSettingsService(mongoService, boshuService)
 
     fun start() {
         instance = this
@@ -40,14 +40,14 @@ class Bot (private val token: String) {
         builder.setPrefix(".")
 
         builder.addCommands(
-            StartCommand(boshuService, mentionService),
+            StartCommand(boshuService, settingsService),
             EndCommand(boshuService),
-            AddCommand(boshuService, mentionService),
-            RemoveCommand(boshuService, mentionService),
-            CanCommand(boshuService, mentionService),
-            DropCommand(boshuService, mentionService),
-            SetMentionCommand(mentionService),
-            ResendCommand(boshuService, mentionService)
+            AddCommand(boshuService, settingsService),
+            RemoveCommand(boshuService, settingsService),
+            CanCommand(boshuService, settingsService),
+            DropCommand(boshuService, settingsService),
+            SetMentionCommand(settingsService),
+            ResendCommand(boshuService, settingsService)
         )
 
         builder.setHelpWord("kyoshu")
@@ -76,7 +76,7 @@ class Listener : ListenerAdapter() {
     override fun onGuildLeave(event: GuildLeaveEvent) {
         event.apply {
             Bot.mongoService.boshu_collection.deleteMany(Filters.eq("guildId", guild.idLong))
-            Bot.mongoService.mention_collection.deleteMany(Filters.eq("guildId", guild.idLong))
+            Bot.mongoService.guild_settings_collection.deleteMany(Filters.eq("guildId", guild.idLong))
         }
     }
 }

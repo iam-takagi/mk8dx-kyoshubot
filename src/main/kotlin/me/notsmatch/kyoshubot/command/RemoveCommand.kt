@@ -3,7 +3,7 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
-import me.notsmatch.kyoshubot.service.MentionService
+import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 import java.lang.StringBuilder
 
-class RemoveCommand(val boshuService: BoshuService, val mentionService: MentionService) : Command(){
+class RemoveCommand(val boshuService: BoshuService,  val settingsService: GuildSettingsService) : Command(){
 
     init {
         this.name = "remove"
@@ -79,6 +79,9 @@ class RemoveCommand(val boshuService: BoshuService, val mentionService: MentionS
                         )
                     }.build()
                 )
+
+                val settings = settingsService.getGuildSettings(guild.idLong)
+
                 textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
                     setColor(Color.CYAN)
                     setAuthor(
@@ -86,7 +89,7 @@ class RemoveCommand(val boshuService: BoshuService, val mentionService: MentionS
                         null,
                         null
                     )
-                    val builder = StringBuilder("${mentionService.getMentionByGuild(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                    val builder = StringBuilder("${settings.getMentionString(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                     builder.append("==========================\n")
                     val it = boshu.koumokuList.iterator()
                     while (it.hasNext()) {

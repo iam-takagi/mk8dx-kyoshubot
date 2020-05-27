@@ -3,13 +3,13 @@ package me.notsmatch.kyoshubot.command
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
-import me.notsmatch.kyoshubot.service.MentionService
+import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 import java.lang.StringBuilder
 
-class ResendCommand (val boshuService: BoshuService, val mentionService: MentionService) : Command() {
+class ResendCommand (val boshuService: BoshuService,  val settingsService: GuildSettingsService) : Command() {
 
     init {
         this.name = "resend"
@@ -18,6 +18,9 @@ class ResendCommand (val boshuService: BoshuService, val mentionService: Mention
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
+
+            event.message.delete().complete()
+
             val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)
                 ?: return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -29,6 +32,8 @@ class ResendCommand (val boshuService: BoshuService, val mentionService: Mention
                     setDescription("このチャンネルでは募集が開始されていません。")
                 }.build())
 
+            val settings = settingsService.getGuildSettings(guild.idLong)
+
             boshu.messageId = channel.sendMessage(
                     EmbedBuilder().apply {
                         setColor(Color.CYAN)
@@ -38,7 +43,7 @@ class ResendCommand (val boshuService: BoshuService, val mentionService: Mention
                             null
                         )
                         val builder =
-                            StringBuilder("${mentionService.getMentionByGuild(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
+                            StringBuilder("${settings.getMentionString(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
                         builder.append("==========================\n")
                         val it = boshu.koumokuList.iterator()
                         while (it.hasNext()) {
