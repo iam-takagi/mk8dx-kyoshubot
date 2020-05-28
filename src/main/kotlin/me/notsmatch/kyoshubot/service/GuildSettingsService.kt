@@ -1,6 +1,5 @@
 package me.notsmatch.kyoshubot.service
 
-import me.notsmatch.kyoshubot.model.CommandOption
 import me.notsmatch.kyoshubot.model.GuildSettings
 import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
@@ -40,13 +39,17 @@ class GuildSettingsService(val mongoService: MongoService, val boshuService: Bos
                 while (it.hasNext()) {
                     val k = it.next()
                     val b =
-                        StringBuilder("・${k.hour}時 @${k.need - k.kyoshuUsers.size} ${k.title}")
-                    if (k.kyoshuUsers.size >= 1) {
+                        StringBuilder("・${k.hour}時 @${k.need - k.getKyoshuSize()} ${k.title}")
+                    if (k.getKyoshuSize() >= 1) {
                         b.append("\n")
-                        k.kyoshuUsers.forEach { id ->
-                            val member = guild.getMemberById(id)
+                        k.kyoshuUsers.forEach { user ->
+                            val member = guild.getMemberById(user.id)
                             if (member != null) {
-                                b.append(DiscordUtils.getName(member) + " ")
+                                b.append(DiscordUtils.getName(member))
+                                if(user.temporary){
+                                    b.append("(仮)")
+                                }
+                                b.append(" ")
                             }
                         }
                     }
