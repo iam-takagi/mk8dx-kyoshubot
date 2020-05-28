@@ -10,13 +10,25 @@ import java.lang.StringBuilder
  * @param need 募集人数
  * @param kyoshuUsers 挙手してるユーザー
  */
-data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUsers: MutableList<Long>) {
+data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUsers: MutableList<KyoshuUser>) {
 
     fun kyoshuSizeText() : String {
-        if(kyoshuUsers.size >= need){
+        if(getKyoshuSize() >= need){
             return "〆"
         }
-        return "@${need-kyoshuUsers.size}"
+        return "@${need-getKyoshuSize()}"
+    }
+
+    fun getKyoshuSize() : Int {
+        return kyoshuUsers.filter { user -> !user.temporary }.size
+    }
+
+    fun getKyoshuUser(id: Long) : KyoshuUser? {
+        return kyoshuUsers.find { user -> user.id == id }
+    }
+
+    fun isKyoshu(id: Long): Boolean {
+        return getKyoshuUser(id) != null
     }
 
     /**
@@ -28,16 +40,10 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
         toReturn.addProperty("hour", hour)
         toReturn.addProperty("need", need)
 
-        val users = StringBuilder()
-        val it = kyoshuUsers.iterator()
-        while (it.hasNext()){
-            users.append(it.next().toString())
-            if(it.hasNext()){
-                users.append(":")
-            }
-        }
+        val usersJsonArray = JsonArray()
+        kyoshuUsers.forEach{user -> usersJsonArray.add(user.toJsonObject())}
 
-        toReturn.addProperty("kyoshuUsers", users.toString())
+        toReturn.addProperty("kyoshuUsers", usersJsonArray.toString())
 
         return toReturn
     }

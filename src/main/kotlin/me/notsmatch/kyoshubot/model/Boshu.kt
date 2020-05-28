@@ -1,5 +1,6 @@
 package me.notsmatch.kyoshubot.model
 
+import com.google.gson.JsonElement
 import com.mongodb.BasicDBList
 import me.notsmatch.kyoshubot.Bot
 import me.notsmatch.kyoshubot.util.JsonUtils
@@ -62,16 +63,15 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                 koumokuArray.forEach{str ->
 
                     //格納用
-                    val kyoshuUsers = mutableListOf<Long>()
+                    val kyoshuUsers = mutableListOf<KyoshuUser>()
 
                     val koumokuJson = JsonUtils.JSON_PARSER.parse(str.toString()).asJsonObject
-                    val kyoshuUsersStr = koumokuJson.get("kyoshuUsers").asString
+                    val kyoshuUsersArray = JsonUtils.JSON_PARSER.parse(koumokuJson.get("kyoshuUsers").asString).asJsonArray
 
                     //挙手ユーザーリストに追加
-                    kyoshuUsersStr.split(":").forEach{id ->
-                        if(id.isNotEmpty()) {
-                            kyoshuUsers.add(id.toLong())
-                        }
+                    kyoshuUsersArray.forEach{
+                        t: JsonElement -> val json = t.asJsonObject
+                        kyoshuUsers.add(KyoshuUser(json.get("id").asLong, json.get("temporary").asBoolean))
                     }
 
                     //項目リストに追加
