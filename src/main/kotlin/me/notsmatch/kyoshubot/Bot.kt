@@ -26,7 +26,7 @@ class Bot (private val token: String) {
         @JvmStatic
         val mongoService: MongoService = MongoService()
 
-        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start")
+        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start", "notify", "tc")
     }
 
     lateinit var jda: JDA
@@ -49,8 +49,10 @@ class Bot (private val token: String) {
             AddCommand(boshuService, settingsService),
             RemoveCommand(boshuService, settingsService),
             CanCommand(boshuService, settingsService),
+            TemporaryCanCommand(boshuService, settingsService),
             DropCommand(boshuService, settingsService),
             ResendCommand(boshuService, settingsService),
+            NotifyCommand(boshuService, settingsService),
             CmdVisibilityCommand(boshuService, settingsService),
             SetMentionCommand(settingsService)
         )
