@@ -40,7 +40,7 @@ class GuildSettingsService(val mongoService: MongoService, val boshuService: Bos
                     val k = it.next()
                     val b =
                         StringBuilder("・${k.hour}時 @${k.need - k.getKyoshuSize()} ${k.title}")
-                    if (k.getKyoshuSize() >= 1) {
+                    if (k.kyoshuUsers.size >= 1) {
                         b.append("\n")
                         k.kyoshuUsers.forEach { user ->
                             val member = guild.getMemberById(user.id)

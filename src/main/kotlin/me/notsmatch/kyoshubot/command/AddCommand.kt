@@ -150,12 +150,16 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
                     while (it.hasNext()){
                         val k = it.next()
                         val b = StringBuilder("・${k.hour}時 ${k.kyoshuSizeText()} ${k.title}")
-                        if(k.kyoshuUsers.size >= 1) {
+                        if (k.kyoshuUsers.size >= 1) {
                             b.append("\n")
-                            k.kyoshuUsers.forEach { id ->
-                                val member = guild.getMemberById(id)
-                                if(member != null) {
-                                    b.append(DiscordUtils.getName(member) + " ")
+                            k.kyoshuUsers.forEach { user ->
+                                val member = guild.getMemberById(user.id)
+                                if (member != null) {
+                                    b.append(DiscordUtils.getName(member))
+                                    if(user.temporary){
+                                        b.append("(仮)")
+                                    }
+                                    b.append(" ")
                                 }
                             }
                         }

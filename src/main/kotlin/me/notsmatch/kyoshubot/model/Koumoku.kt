@@ -2,6 +2,8 @@ package me.notsmatch.kyoshubot.model
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import me.notsmatch.kyoshubot.Bot
+import net.dv8tion.jda.api.entities.Guild
 import java.lang.StringBuilder
 
 /**
@@ -20,7 +22,7 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
     }
 
     fun getKyoshuSize() : Int {
-        return kyoshuUsers.filter { user -> !user.temporary }.size
+        return kyoshuUsers.size
     }
 
     fun getKyoshuUser(id: Long) : KyoshuUser? {
@@ -46,5 +48,19 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
         toReturn.addProperty("kyoshuUsers", usersJsonArray.toString())
 
         return toReturn
+    }
+
+    fun getKyoshuUsersMention(guild: Guild): String {
+        val builder = StringBuilder()
+
+        kyoshuUsers.forEach { user ->
+            builder.append(guild.getMemberById(user.id)!!.asMention)
+            if(user.temporary){
+                builder.append("(仮)")
+            }
+            builder.append(" ")
+        }
+
+        return builder.toString()
     }
 }

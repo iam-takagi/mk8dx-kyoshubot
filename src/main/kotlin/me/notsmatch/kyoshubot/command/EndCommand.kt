@@ -49,13 +49,17 @@ class EndCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                     while (it.hasNext()) {
                         val k = it.next()
                         val b =
-                            StringBuilder("・${k.hour}時 @${k.need - k.kyoshuUsers.size} ${k.title}")
+                            StringBuilder("・${k.hour}時 @${k.need - k.getKyoshuSize()} ${k.title}")
                         if (k.kyoshuUsers.size >= 1) {
                             b.append("\n")
-                            k.kyoshuUsers.forEach { id ->
-                                val member = guild.getMemberById(id)
+                            k.kyoshuUsers.forEach { user ->
+                                val member = guild.getMemberById(user.id)
                                 if (member != null) {
-                                    b.append(DiscordUtils.getName(member) + " ")
+                                    b.append(DiscordUtils.getName(member))
+                                    if(user.temporary){
+                                        b.append("(仮)")
+                                    }
+                                    b.append(" ")
                                 }
                             }
                         }

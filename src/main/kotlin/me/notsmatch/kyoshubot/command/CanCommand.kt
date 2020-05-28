@@ -2,6 +2,7 @@ package me.notsmatch.kyoshubot.command
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
+import me.notsmatch.kyoshubot.model.KyoshuUser
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.DiscordUtils
@@ -65,7 +66,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         setDescription("${arg}時の項目は存在しません")
                     }.build())
 
-                    if (koumoku.kyoshuUsers.size >= koumoku.need) {
+                    if (koumoku.getKyoshuSize() >= koumoku.need) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -73,12 +74,12 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                                 null,
                                 null
                             )
-                            setDescription("${arg}時の項目は挙手が満員に達しています")
+                            setDescription("${arg}時の項目は挙手人数が満員に達しています")
                         }.build())
                     }
 
-                    if (!koumoku.kyoshuUsers.contains(author.idLong)) {
-                        if (koumoku.kyoshuUsers.add(author.idLong)) {
+                    if (!koumoku.isKyoshu(author.idLong)) {
+                        if (koumoku.kyoshuUsers.add(KyoshuUser(author.idLong, false))) {
 
                             boshu.save()
 
@@ -98,10 +99,14 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                                     val b = StringBuilder("・${k.hour}時 ${k.kyoshuSizeText()} ${k.title}")
                                     if (k.kyoshuUsers.size >= 1) {
                                         b.append("\n")
-                                        k.kyoshuUsers.forEach { id ->
-                                            val member = guild.getMemberById(id)
+                                        k.kyoshuUsers.forEach { user ->
+                                            val member = guild.getMemberById(user.id)
                                             if (member != null) {
-                                                b.append(DiscordUtils.getName(member) + " ")
+                                                b.append(DiscordUtils.getName(member))
+                                                if(user.temporary){
+                                                    b.append("(仮)")
+                                                }
+                                                b.append(" ")
                                             }
                                         }
                                     }
