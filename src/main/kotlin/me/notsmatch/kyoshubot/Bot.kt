@@ -26,13 +26,12 @@ class Bot (private val token: String) {
         @JvmStatic
         val mongoService: MongoService = MongoService()
 
-        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start", "notify", "tc")
+        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start", "notify", "tc", "close", "setnotifychannel")
     }
 
     lateinit var jda: JDA
     val boshuService: BoshuService = BoshuService()
     val settingsService: GuildSettingsService = GuildSettingsService(mongoService, boshuService)
-
 
     fun start() {
         instance = this
@@ -54,7 +53,9 @@ class Bot (private val token: String) {
             ResendCommand(boshuService, settingsService),
             NotifyCommand(boshuService, settingsService),
             CmdVisibilityCommand(boshuService, settingsService),
-            SetMentionCommand(settingsService)
+            SetMentionCommand(boshuService, settingsService),
+            CloseCommand(boshuService, settingsService),
+            SetNotifyChannelCommand(boshuService, settingsService)
         )
 
         builder.setHelpWord("kyoshu")
