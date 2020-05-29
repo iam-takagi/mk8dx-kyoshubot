@@ -78,24 +78,19 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         }.build())
                     }
 
-                    //既に仮挙手している場合
+                    //既に仮挙手している場合、挙手にする
                     val user = koumoku.getKyoshuUser(author.idLong)
-                    if(user != null && koumoku.getKyoshuUser(author.idLong)!!.temporary) {
+                    if (user != null && koumoku.getKyoshuUser(author.idLong)!!.temporary) {
                         user.temporary = false
                         boshu.save()
 
                         boshu.updateMessage(guild, settings)
+                        return
                     }
 
-                    else if (!koumoku.isKyoshu(author.idLong)) {
-                        if (koumoku.kyoshuUsers.add(KyoshuUser(author.idLong, false))) {
-
-                            boshu.save()
-
-                            boshu.updateMessage(guild, settings)
-                        }
-                    } else {
-                        replyInDm(EmbedBuilder().apply {
+                    //既に本挙手している場合、エラー
+                    else if (user != null && !koumoku.getKyoshuUser(author.idLong)!!.temporary) {
+                        return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
                                 "Error",
@@ -104,6 +99,16 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                             )
                             setDescription("あなたは既に${arg}時に挙手しています")
                         }.build())
+                    }
+
+                    //本挙手していない場合
+                   else if (!koumoku.isKyoshu(author.idLong)) {
+                        if (koumoku.kyoshuUsers.add(KyoshuUser(author.idLong, false))) {
+
+                            boshu.save()
+
+                            boshu.updateMessage(guild, settings)
+                        }
                     }
                 }
             }
