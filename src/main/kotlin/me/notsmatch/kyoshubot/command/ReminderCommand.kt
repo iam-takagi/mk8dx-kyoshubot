@@ -13,7 +13,7 @@ class ReminderCommand(val boshuService: BoshuService, val settingsService: Guild
 
     init {
         this.name = "reminder"
-        this.help = "指定した時間に挙手してないユーザーへメンションを飛ばします"
+        this.help = "@everyoneでメンションします"
         this.arguments = "<hour1> <hour2> <hour3>..."
     }
 
