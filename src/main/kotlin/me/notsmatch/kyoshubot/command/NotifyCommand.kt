@@ -13,7 +13,6 @@ class NotifyCommand(val boshuService: BoshuService, val settingsService: GuildSe
 
     init {
         this.name = "notify"
-        this.aliases = arrayOf("n")
         this.help = "挙手しているユーザーにメンションをつけてメッセージを送信します"
         this.arguments = "<hour> <message>"
     }
