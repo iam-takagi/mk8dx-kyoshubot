@@ -36,40 +36,7 @@ class EndCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                 }.build())
 
             if(boshuService.removeBoshu(guild.idLong, channel.idLong)){
-                textChannel.editMessageById(boshu.messageId,  EmbedBuilder().apply {
-                    setColor(Color.CYAN)
-                    setAuthor(
-                        "募集は締め切られました",
-                        null,
-                        null
-                    )
-                    val builder = StringBuilder("@everyone\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
-                    builder.append("==========================\n")
-                    val it = boshu.koumokuList.iterator()
-                    while (it.hasNext()) {
-                        val k = it.next()
-                        val b =
-                            StringBuilder("・${k.hour}時 @${k.need - k.getKyoshuSize()} ${k.title}")
-                        if (k.kyoshuUsers.size >= 1) {
-                            b.append("\n")
-                            k.kyoshuUsers.forEach { user ->
-                                val member = guild.getMemberById(user.id)
-                                if (member != null) {
-                                    b.append(DiscordUtils.getName(member))
-                                    if(user.temporary){
-                                        b.append("(仮)")
-                                    }
-                                    b.append(" ")
-                                }
-                            }
-                        }
-                        builder.append(b.toString())
-                        if (it.hasNext()) {
-                            builder.append("\n")
-                        }
-                    }
-                    setDescription(builder.toString())
-                }.build()).queue()
+                boshu.updateMessage(guild, settings)
             }
         }
     }
