@@ -18,7 +18,7 @@ data class CommandOption(val command: String, var visibility: Boolean) {
     }
 }
 
-data class GuildSettings(val guildId: Long, var mention: String?, var notifyChannelId: Long?, val commandOptions: MutableList<CommandOption>) {
+data class GuildSettings(val guildId: Long, var mention: String?, var notifyChannelId: Long, val commandOptions: MutableList<CommandOption>) {
 
     fun toDocument() : Document {
         return Document().apply {
