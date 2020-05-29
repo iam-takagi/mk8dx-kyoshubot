@@ -67,7 +67,7 @@ class TemporaryCanCommand(val boshuService: BoshuService, val settingsService: G
                         setDescription("${arg}時の項目は存在しません")
                     }.build())
 
-                    if (koumoku.getKyoshuSize() >= koumoku.need) {
+                    if (koumoku.isClosed()) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -79,45 +79,12 @@ class TemporaryCanCommand(val boshuService: BoshuService, val settingsService: G
                         }.build())
                     }
 
-                    if (!koumoku.isKyoshu(author.idLong)) {
+                    else if (!koumoku.isKyoshu(author.idLong)) {
                         if (koumoku.kyoshuUsers.add(KyoshuUser(author.idLong, true))) {
 
                             boshu.save()
 
-                            textChannel.editMessageById(boshu.messageId, EmbedBuilder().apply {
-                                setColor(Color.CYAN)
-                                setAuthor(
-                                    "募集が進行中です",
-                                    null,
-                                    null
-                                )
-                                val builder =
-                                    StringBuilder("${settings.getMentionString(guild)}\nタイトル: " + boshu.title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
-                                builder.append("==========================\n")
-                                val it = boshu.koumokuList.iterator()
-                                while (it.hasNext()) {
-                                    val k = it.next()
-                                    val b = StringBuilder("・${k.hour}時 ${k.kyoshuSizeText()} ${k.title}")
-                                    if (k.kyoshuUsers.size >= 1) {
-                                        b.append("\n")
-                                        k.kyoshuUsers.forEach { user ->
-                                            val member = guild.getMemberById(user.id)
-                                            if (member != null) {
-                                                b.append(DiscordUtils.getName(member))
-                                                if (user.temporary) {
-                                                    b.append("(仮)")
-                                                }
-                                                b.append(" ")
-                                            }
-                                        }
-                                    }
-                                    builder.append(b.toString())
-                                    if (it.hasNext()) {
-                                        builder.append("\n")
-                                    }
-                                }
-                                setDescription(builder.toString())
-                            }.build()).queue()
+                            boshu.updateMessage(guild, settings)
                         }
                     } else {
                         replyInDm(EmbedBuilder().apply {
