@@ -19,7 +19,7 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, var closed: 
         if(isClosed()){
             return "〆"
         }
-        return "@${need-getKyoshuLeft()}"
+        return "@${getKyoshuLeft()}"
     }
 
     /**
