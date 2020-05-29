@@ -55,7 +55,9 @@ class Bot (private val token: String) {
             CmdVisibilityCommand(boshuService, settingsService),
             SetMentionCommand(boshuService, settingsService),
             CloseCommand(boshuService, settingsService),
-            SetNotifyChannelCommand(boshuService, settingsService)
+            OpenCommand(boshuService, settingsService),
+            SetNotifyChannelCommand(boshuService, settingsService),
+            ReminderCommand(boshuService, settingsService)
         )
 
         builder.setHelpWord("kyoshu")
