@@ -12,25 +12,42 @@ import java.lang.StringBuilder
  * @param need 募集人数
  * @param kyoshuUsers 挙手してるユーザー
  */
-data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUsers: MutableList<KyoshuUser>) {
+data class Koumoku(val title: String, val hour: Int, val need: Int, var closed: Boolean, val kyoshuUsers: MutableList<KyoshuUser>) {
+
 
     fun kyoshuSizeText() : String {
-        if(getKyoshuSize() >= need){
+        if(isClosed()){
             return "〆"
         }
         return "@${need-getKyoshuSize()}"
     }
 
+    /**
+     * 挙手人数を返します
+     */
     fun getKyoshuSize() : Int {
         return kyoshuUsers.size
     }
 
+    /**
+     * 挙手ユーザーを返します
+     */
     fun getKyoshuUser(id: Long) : KyoshuUser? {
         return kyoshuUsers.find { user -> user.id == id }
     }
 
+    /**
+     *
+     */
     fun isKyoshu(id: Long): Boolean {
         return getKyoshuUser(id) != null
+    }
+
+    fun isClosed() : Boolean {
+        if(closed) {
+            return true
+        }
+        return getKyoshuSize() >= need
     }
 
     /**
@@ -41,6 +58,7 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, val kyoshuUs
         toReturn.addProperty("title", title)
         toReturn.addProperty("hour", hour)
         toReturn.addProperty("need", need)
+        toReturn.addProperty("closed", closed)
 
         val usersJsonArray = JsonArray()
         kyoshuUsers.forEach{user -> usersJsonArray.add(user.toJsonObject())}

@@ -49,6 +49,9 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
         Bot.mongoService.replaceBoshu(guildId, channelId, toDocument())
     }
 
+    /**
+     * メッセージ更新
+     */
     fun updateMessage(guild: Guild, settings: GuildSettings) {
         val textChannel = guild.getTextChannelById(channelId) ?: return
         textChannel.editMessageById(messageId, EmbedBuilder().apply {
@@ -87,6 +90,10 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
         }.build()).queue()
     }
 
+
+
+
+
     companion object {
 
         /**
@@ -123,6 +130,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                             koumokuJson.get("title").asString,
                             koumokuJson.get("hour").asInt,
                             koumokuJson.get("need").asInt,
+                            koumokuJson.get("closed").asBoolean,
                             kyoshuUsers
                         )
                     )
