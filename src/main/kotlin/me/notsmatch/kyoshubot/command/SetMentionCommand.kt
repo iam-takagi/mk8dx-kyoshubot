@@ -14,7 +14,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
 
     init {
         this.name = "setmention"
-        this.help = "メンションを変更します\nUsage:\n.setmention everyone\n.setmention here\n.setmention 713167475885473792"
+        this.help = "募集時のメンションを変更します"
         this.arguments = "<role_id | everyone | here>"
     }
 
