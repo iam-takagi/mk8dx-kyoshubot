@@ -74,7 +74,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                                 null,
                                 null
                             )
-                            setDescription("${arg}時の項目は挙手人数が満員に達しています")
+                            setDescription("${arg}時の項目は締め切られています")
                         }.build())
                     }
 
