@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
 
-class ReopenCommand(val boshuService: BoshuService, val settingsService: GuildSettingsService) : Command() {
+class OpenCommand(val boshuService: BoshuService, val settingsService: GuildSettingsService) : Command() {
 
     init {
         this.name = "reopen"
@@ -22,7 +22,7 @@ class ReopenCommand(val boshuService: BoshuService, val settingsService: GuildSe
                 event.message.delete().complete()
             }
 
-            
+
         }
     }
 }
