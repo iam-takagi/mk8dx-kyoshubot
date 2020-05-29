@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.Permission
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
-class SetMentionCommand(val settingsService: GuildSettingsService, val boshuService: BoshuService) : Command() {
+class SetMentionCommand(val boshuService: BoshuService, val settingsService: GuildSettingsService) : Command() {
 
     init {
         this.name = "setmention"
