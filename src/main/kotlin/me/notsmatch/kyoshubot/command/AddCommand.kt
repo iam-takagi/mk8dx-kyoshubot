@@ -114,6 +114,7 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
                         title,
                         hour.toInt(),
                         need.toInt(),
+                        false,
                         mutableListOf()
                     )
                 )){
