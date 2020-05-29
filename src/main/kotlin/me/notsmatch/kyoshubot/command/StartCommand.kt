@@ -76,7 +76,7 @@ class StartCommand(val boshuService: BoshuService, val settingsService: GuildSet
                         null,
                         null
                     )
-                    setDescription("このチャンネルでは既に募集が開始されています。 募集を終了するには !end を使用してください。")
+                    setDescription("このチャンネルでは既に募集が開始されています。 募集を終了するには .end を使用してください。")
                 }.build())
             }
         }
