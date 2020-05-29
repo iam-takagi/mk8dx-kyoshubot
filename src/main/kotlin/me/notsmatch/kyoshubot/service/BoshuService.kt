@@ -16,7 +16,7 @@ class BoshuService {
         return Boshu.fromDocument(document)
     }
 
-    fun getBoshuByGuildId(guildId: Long) : List<Boshu>?{
+    fun getBoshuListByGuildId(guildId: Long) : List<Boshu>?{
         val toReturn = arrayListOf<Boshu>()
         val documents = Bot.mongoService.findBoshuByGuild(guildId) ?: return null
         documents.forEach { document -> toReturn.add(Boshu.fromDocument(document))}
