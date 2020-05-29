@@ -66,7 +66,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         setDescription("${arg}時の項目は存在しません")
                     }.build())
 
-                    if (koumoku.getKyoshuSize() >= koumoku.need) {
+                    if (koumoku.isClosed()) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
