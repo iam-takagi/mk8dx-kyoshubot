@@ -19,7 +19,14 @@ data class Koumoku(val title: String, val hour: Int, val need: Int, var closed: 
         if(isClosed()){
             return "〆"
         }
-        return "@${need-getKyoshuSize()}"
+        return "@${need-getKyoshuLeft()}"
+    }
+
+    /**
+     * 満員までの残りを返します
+     */
+    fun getKyoshuLeft() : Int{
+       return need-getKyoshuSize()
     }
 
     /**
