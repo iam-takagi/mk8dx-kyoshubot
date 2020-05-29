@@ -13,7 +13,7 @@ class CloseCommand (val boshuService: BoshuService, val settingsService: GuildSe
 
     init {
         this.name = "close"
-        this.help = "時間を指定して項目を強制締め切りします"
+        this.help = "時間を指定して項目を強制的に締め切ります"
         this.arguments = "<hour1> <hour2> <hour3>"
     }
 
