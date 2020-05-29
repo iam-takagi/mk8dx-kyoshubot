@@ -78,10 +78,10 @@ class NotifyCommand(val boshuService: BoshuService, val settingsService: GuildSe
                 }
 
                 if(settings.notifyChannelId == 0L) {
-                    guild.getTextChannelById(boshu.channelId)!!
-                        .sendMessage("${hour}時: " + koumoku.getKyoshuUsersMention(guild) + "\n" + args[1]).queue()
+                    val channel = boshu.channelId.let { guild.getTextChannelById(it) } ?:return
+                    channel.sendMessage("${hour}時: " + koumoku.getKyoshuUsersMention(guild) + "\n" + args[1]).queue()
                 }else{
-                    val channel = settings.notifyChannelId?.let { guild.getTextChannelById(it) } ?:return
+                    val channel = settings.notifyChannelId.let { guild.getTextChannelById(it) } ?:return
                     channel.sendMessage("${hour}時: " + koumoku.getKyoshuUsersMention(guild) + "\n" + args[1]).queue()
                 }
             }
