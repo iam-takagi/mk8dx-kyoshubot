@@ -10,7 +10,7 @@ import net.dv8tion.jda.api.Permission
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 
-class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
+class SetMentionCommand(val settingsService: GuildSettingsService, val boshuService: BoshuService) : Command() {
 
     init {
         this.name = "setmention"
@@ -56,7 +56,10 @@ class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
                 settings.apply {
                     mention = "everyone"
                     save()
-                    settingsService.updateMention(guild, settings)
+                    val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
+                    boshuList.forEach { boshu ->
+                        boshu.updateMessage(guild, settings)
+                    }
                 }
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.CYAN)
@@ -73,7 +76,10 @@ class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
                 settings.apply {
                     mention = "here"
                     save()
-                    settingsService.updateMention(guild, settings)
+                    val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
+                    boshuList.forEach { boshu ->
+                        boshu.updateMessage(guild, settings)
+                    }
                 }
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.CYAN)
@@ -126,7 +132,10 @@ class SetMentionCommand(val settingsService: GuildSettingsService) : Command() {
                 settings.apply {
                     mention = args[0]
                     save()
-                    settingsService.updateMention(guild, settings)
+                    val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
+                    boshuList.forEach { boshu ->
+                        boshu.updateMessage(guild, settings)
+                    }
                 }
             }
         }
