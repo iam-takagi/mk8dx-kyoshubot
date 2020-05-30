@@ -19,8 +19,6 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
         this.arguments = "<hour1> <hour2> <hour3>..."
     }
 
-
-
     override fun execute(event: CommandEvent?) {
         event?.apply {
             val settings = settingsService.getGuildSettings(guild.idLong)
