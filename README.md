@@ -1,4 +1,7 @@
 # KyoshuBot
+
+Donate/支援・寄付: https://riptakagi.fanbox.cc
+
 なんかで役立ちそうな挙手Bot
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
