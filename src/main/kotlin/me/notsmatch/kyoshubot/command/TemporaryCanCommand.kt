@@ -84,7 +84,7 @@ class TemporaryCanCommand(val boshuService: BoshuService, val settingsService: G
 
                             boshu.save()
 
-                            boshu.updateMessage(guild, settings)
+                            boshu.updateMessage(guild, settings, false)
                         }
                     } else {
                         replyInDm(EmbedBuilder().apply {

@@ -67,7 +67,7 @@ class CloseCommand (val boshuService: BoshuService, val settingsService: GuildSe
                     if (!koumoku.closed) {
                         koumoku.closed = true
                         boshu.save()
-                        boshu.updateMessage(guild, settings)
+                        boshu.updateMessage(guild, settings, false)
                     }else{
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)

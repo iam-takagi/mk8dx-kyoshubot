@@ -114,7 +114,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                             user.temporary = false
                             boshu.save()
 
-                            boshu.updateMessage(guild, settings)
+                            boshu.updateMessage(guild, settings, false)
                             return
                         }
 
@@ -137,7 +137,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
 
                                 boshu.save()
 
-                                boshu.updateMessage(guild, settings)
+                                boshu.updateMessage(guild, settings, false)
                             }
                         }
                     }
@@ -186,7 +186,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         user.temporary = false
                         boshu.save()
 
-                        boshu.updateMessage(guild, settings)
+                        boshu.updateMessage(guild, settings, false)
                         return
                     }
 
@@ -209,7 +209,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
 
                             boshu.save()
 
-                            boshu.updateMessage(guild, settings)
+                            boshu.updateMessage(guild, settings, false)
                         }
                     }
                 }

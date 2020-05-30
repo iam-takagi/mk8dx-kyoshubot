@@ -58,7 +58,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                     save()
                     val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
                     boshuList.forEach { boshu ->
-                        boshu.updateMessage(guild, settings)
+                        boshu.updateMessage(guild, settings, false)
                     }
                 }
                 return replyInDm(EmbedBuilder().apply {
@@ -78,7 +78,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                     save()
                     val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
                     boshuList.forEach { boshu ->
-                        boshu.updateMessage(guild, settings)
+                        boshu.updateMessage(guild, settings, false)
                     }
                 }
                 return replyInDm(EmbedBuilder().apply {
@@ -134,7 +134,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                     save()
                     val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
                     boshuList.forEach { boshu ->
-                        boshu.updateMessage(guild, settings)
+                        boshu.updateMessage(guild, settings, false)
                     }
                 }
             }

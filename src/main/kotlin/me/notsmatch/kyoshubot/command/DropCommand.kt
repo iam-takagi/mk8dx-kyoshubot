@@ -115,7 +115,7 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
 
                                 boshu.save()
 
-                                boshu.updateMessage(guild, settings)
+                                boshu.updateMessage(guild, settings, false)
                             }
 
                         } else {
@@ -174,7 +174,7 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
 
                             boshu.save()
 
-                            boshu.updateMessage(guild, settings)
+                            boshu.updateMessage(guild, settings, false)
                         }
 
                     } else {

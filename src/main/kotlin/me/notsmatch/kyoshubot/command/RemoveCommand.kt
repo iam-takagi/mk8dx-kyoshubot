@@ -84,7 +84,7 @@ class RemoveCommand(val boshuService: BoshuService,  val settingsService: GuildS
                     }.build()
                 )
 
-                boshu.updateMessage(guild, settings)
+                boshu.updateMessage(guild, settings, false)
             }
         }
     }

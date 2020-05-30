@@ -36,7 +36,7 @@ class EndCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                 }.build())
 
             if(boshuService.removeBoshu(guild.idLong, channel.idLong)){
-                boshu.updateMessage(guild, settings)
+                boshu.updateMessage(guild, settings, true)
             }
         }
     }

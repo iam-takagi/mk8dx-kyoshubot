@@ -138,7 +138,7 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
                     }.build()
                 )*/
 
-                boshu.updateMessage(guild, settings)
+                boshu.updateMessage(guild, settings, false)
             }
         }
     }
