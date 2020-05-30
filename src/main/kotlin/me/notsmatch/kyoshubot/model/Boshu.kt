@@ -52,15 +52,24 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
     /**
      * メッセージ更新
      */
-    fun updateMessage(guild: Guild, settings: GuildSettings) {
+    fun updateMessage(guild: Guild, settings: GuildSettings, end: Boolean) {
         val textChannel = guild.getTextChannelById(channelId) ?: return
         textChannel.editMessageById(messageId, EmbedBuilder().apply {
             setColor(Color.CYAN)
-            setAuthor(
-                "募集が進行中です",
-                null,
-                null
-            )
+            if(!end){
+                setAuthor(
+                    "募集が進行中です",
+                    null,
+                    null
+                )
+            } else {
+                setAuthor(
+                    "募集は終了しました",
+                    null,
+                    null
+                )
+            }
+
             val builder =
                 StringBuilder("${settings.getMentionString(guild)}\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
             builder.append("==========================\n")
