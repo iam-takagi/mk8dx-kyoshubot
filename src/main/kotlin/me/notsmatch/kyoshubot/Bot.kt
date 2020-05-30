@@ -1,6 +1,8 @@
 package me.notsmatch.kyoshubot
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter
+import com.jagrosh.jdautilities.examples.command.GuildlistCommand
 import com.mongodb.client.model.Filters
 import me.notsmatch.kyoshubot.command.*
 import me.notsmatch.kyoshubot.service.BoshuService
@@ -32,6 +34,7 @@ class Bot (private val token: String) {
     lateinit var jda: JDA
     val boshuService: BoshuService = BoshuService()
     val settingsService: GuildSettingsService = GuildSettingsService(mongoService, boshuService)
+    val eventWaiter = EventWaiter()
 
     fun start() {
         instance = this
@@ -57,7 +60,8 @@ class Bot (private val token: String) {
             CloseCommand(boshuService, settingsService),
             OpenCommand(boshuService, settingsService),
             SetNotifyChannelCommand(boshuService, settingsService),
-            ReminderCommand(boshuService, settingsService)
+            ReminderCommand(boshuService, settingsService),
+            GuildlistCommand(eventWaiter)
         )
 
         builder.setHelpWord("kyoshu")
