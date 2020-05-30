@@ -59,7 +59,7 @@ class Bot (private val token: String) {
             SetNotifyChannelCommand(boshuService, settingsService),
             ReminderCommand(boshuService, settingsService),
             GuildlistCommand(eventWaiter),
-            AboutCommand(Color.GREEN, "https://github.com/notsmatch/KyoshuBot", Permission.VIEW_CHANNEL, Permission.MESSAGE_MANAGE, Permission.MESSAGE_MENTION_EVERYONE, Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ADD_REACTION)
+            AboutCommand(Color.GREEN, "https://github.com/notsmatch/KyoshuBot", Permission.VIEW_CHANNEL, Permission.MESSAGE_MANAGE, Permission.MESSAGE_MENTION_EVERYONE, Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ)
         )
 
         builder.setHelpWord("kyoshu")
