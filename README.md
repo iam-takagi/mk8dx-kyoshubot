@@ -1,6 +1,6 @@
 # KyoshuBot
 
-Donate/支援・寄付: https://riptakagi.fanbox.cc
+Donate: https://riptakagi.fanbox.cc
 
 なんかで役立ちそうな挙手Bot
 
