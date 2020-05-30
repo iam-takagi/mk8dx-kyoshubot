@@ -2,11 +2,13 @@ package me.notsmatch.kyoshubot.command
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
+import me.notsmatch.kyoshubot.model.KyoshuUser
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.Permission
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 import java.lang.StringBuilder
@@ -42,6 +44,95 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
 
             if (args.isNotEmpty()) {
 
+                if(args.size == 2) {
+                    if(args[1].startsWith("<@") && args[1].endsWith('>')) {
+                        if(!member.hasPermission(Permission.ADMINISTRATOR)){
+                            return replyInDm(EmbedBuilder().apply {
+                                setColor(Color.RED)
+                                setAuthor(
+                                    "Error",
+                                    null,
+                                    null
+                                )
+                                setDescription("You don't have a permission: ADMINISTRATOR")
+                            }.build())
+                        }
+
+                        var mention = args[1].replace("<", "").replace("@", "").replace(">", "").trim()
+
+                        if (mention.startsWith('!')) {
+                            mention = mention.replace("!", "").trim()
+                        }
+
+                        println(mention)
+
+                        val other = guild.getMemberById(mention) ?:  return replyInDm(EmbedBuilder().apply {
+                            setColor(Color.RED)
+                            setAuthor(
+                                "Error",
+                                null,
+                                null
+                            )
+                            setDescription("そのユーザーはサーバー内に存在しません")
+                        }.build())
+
+                        if (!NumberUtils.isInteger(args[0]) || args[0].toInt() > 36 || args[0].toInt() < 0) {
+                            return replyInDm(EmbedBuilder().apply {
+                                setColor(Color.RED)
+                                setAuthor(
+                                    "Error",
+                                    null,
+                                    null
+                                )
+                                setDescription("hourは0~36で指定する必要があります。")
+                            }.build())
+                        }
+
+                        val koumoku = boshu.getKoumokuByHour(args[0].toInt()) ?: return replyInDm(EmbedBuilder().apply {
+                            setColor(Color.RED)
+                            setAuthor(
+                                "Error",
+                                null,
+                                null
+                            )
+                            setDescription("${args[0]}時の項目は存在しません")
+                        }.build())
+
+                        if (koumoku.closed) {
+                            return replyInDm(EmbedBuilder().apply {
+                                setColor(Color.RED)
+                                setAuthor(
+                                    "Error",
+                                    null,
+                                    null
+                                )
+                                setDescription("${args[0]}時の項目は強制的に締め切られています")
+                            }.build())
+                        }
+
+                        if (koumoku.isKyoshu(other.idLong)) {
+                            if (koumoku.kyoshuUsers.remove(koumoku.getKyoshuUser(other.idLong))) {
+
+                                boshu.save()
+
+                                boshu.updateMessage(guild, settings)
+                            }
+
+                        } else {
+                            replyInDm(EmbedBuilder().apply {
+                                setColor(Color.RED)
+                                setAuthor(
+                                    "Error",
+                                    null,
+                                    null
+                                )
+                                setDescription("あなたは${args[0]}時に挙手していません")
+                            }.build())
+                        }
+                    }
+                    return
+                }
+
                 args.forEach { arg ->
 
                     if (!NumberUtils.isInteger(arg) || arg.toInt() > 36 || arg.toInt() < 0) {
@@ -65,6 +156,18 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
                         )
                         setDescription("${arg}時の項目は存在しません")
                     }.build())
+
+                    if (koumoku.closed) {
+                        return replyInDm(EmbedBuilder().apply {
+                            setColor(Color.RED)
+                            setAuthor(
+                                "Error",
+                                null,
+                                null
+                            )
+                            setDescription("${args[0]}時の項目は強制的に締め切られています")
+                        }.build())
+                    }
 
                     if (koumoku.isKyoshu(author.idLong)) {
                         if (koumoku.kyoshuUsers.remove(koumoku.getKyoshuUser(author.idLong))) {
