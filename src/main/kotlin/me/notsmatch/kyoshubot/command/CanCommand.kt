@@ -15,7 +15,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
 
     init {
         this.name = "c"
-        this.help = "時間を指定して挙手します"
+        this.help = "時間を指定して挙手します | 管理者専用: .d <hour> <mention>"
         this.arguments = "<hour1> <hour2> <hour3>..."
     }
 

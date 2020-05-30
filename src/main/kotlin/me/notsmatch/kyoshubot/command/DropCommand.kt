@@ -17,7 +17,7 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
 
     init {
         this.name = "d"
-        this.help = "時間を指定して挙手を下ろします"
+        this.help = "時間を指定して挙手を下ろします | 管理者専用: .d <hour> <mention>"
         this.arguments = "<hour1> <hour2> <hour3>..."
     }
 
