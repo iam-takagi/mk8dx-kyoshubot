@@ -27,7 +27,7 @@ needは0-30で指定してください (募集人数)
 
 .kyoshuでhelp表示
 
-![](https://i.imgur.com/jdNyEw0.png)
+![](https://i.imgur.com/k6ffZ72.png)
 
 ## Image
-![](https://i.imgur.com/oucpYuz.png)
+![](https://i.imgur.com/k6ffZ72.png)
