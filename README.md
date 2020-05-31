@@ -1,11 +1,14 @@
 # KyoshuBot
+
+Donate: https://riptakagi.fanbox.cc
+
 なんかで役立ちそうな挙手Bot
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
 # Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
-* Botがメッセージを書き換えてくれます(通知を最小限にしたつもり)
+* Botがメッセージを書き換えてくれます
 * バグ報告・欲しい機能の提案 Issuesでお待ちしております
 
 # Usage
@@ -26,4 +29,4 @@ needは0-30で指定してください (募集人数)
 ![](https://i.imgur.com/jdNyEw0.png)
 
 # Image
-![](https://i.imgur.com/jdNyEw0.png)
+![](https://i.imgur.com/oucpYuz.png)
