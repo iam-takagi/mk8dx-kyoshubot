@@ -23,11 +23,11 @@ needは0-30で指定してください (募集人数)
 * .c 21
 * .d 21
 
-# Command
+## Command
 
 .kyoshuでhelp表示
 
 ![](https://i.imgur.com/jdNyEw0.png)
 
-# Image
+## Image
 ![](https://i.imgur.com/oucpYuz.png)
