@@ -1,13 +1,11 @@
 # KyoshuBot
 
+https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
+
 ## Donate
 https://riptakagi.fanbox.cc
 とーふ。/Louix 
 Minami
-
-なんかで役立ちそうな挙手Bot
-
-https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
