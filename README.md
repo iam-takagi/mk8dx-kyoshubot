@@ -4,8 +4,8 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 
 ## Donate
 https://riptakagi.fanbox.cc
-とーふ。/Louix 
-Minami
+* Minami
+* とーふ。/Louix 
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
