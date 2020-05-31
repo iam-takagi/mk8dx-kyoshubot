@@ -42,103 +42,99 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
 
             if (args.isNotEmpty()) {
 
-                if(args.size == 2) {
-                    if(args[1].startsWith("<@") && args[1].endsWith('>')) {
-                        if(!member.hasPermission(Permission.ADMINISTRATOR)){
-                            return replyInDm(EmbedBuilder().apply {
-                                setColor(Color.RED)
-                                setAuthor(
-                                    "Error",
-                                    null,
-                                    null
-                                )
-                                setDescription("You don't have a permission: ADMINISTRATOR")
-                            }.build())
-                        }
-
-                        var mention = args[1].replace("<", "").replace("@", "").replace(">", "").trim()
-
-                        if (mention.startsWith('!')) {
-                            mention = mention.replace("!", "").trim()
-                        }
-
-                        println(mention)
-
-                        val other = guild.getMemberById(mention) ?:  return replyInDm(EmbedBuilder().apply {
-                                setColor(Color.RED)
-                                setAuthor(
-                                    "Error",
-                                    null,
-                                    null
-                                )
-                                setDescription("そのユーザーはサーバー内に存在しません")
-                            }.build())
-
-                        if (!NumberUtils.isInteger(args[0]) || args[0].toInt() > 36 || args[0].toInt() < 0) {
-                            return replyInDm(EmbedBuilder().apply {
-                                setColor(Color.RED)
-                                setAuthor(
-                                    "Error",
-                                    null,
-                                    null
-                                )
-                                setDescription("hourは0~36で指定する必要があります。")
-                            }.build())
-                        }
-
-                        val koumoku = boshu.getKoumokuByHour(args[0].toInt()) ?: return replyInDm(EmbedBuilder().apply {
+                if(args.size == 2 && args[1].startsWith("<@") && args[1].endsWith('>')) {
+                    if (!member.hasPermission(Permission.ADMINISTRATOR)) {
+                        return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
                                 "Error",
                                 null,
                                 null
                             )
-                            setDescription("${args[0]}時の項目は存在しません")
+                            setDescription("You don't have a permission: ADMINISTRATOR")
                         }.build())
+                    }
 
-                        if (koumoku.isClosed()) {
-                            return replyInDm(EmbedBuilder().apply {
-                                setColor(Color.RED)
-                                setAuthor(
-                                    "Error",
-                                    null,
-                                    null
-                                )
-                                setDescription("${args[0]}時の項目は締め切られています")
-                            }.build())
-                        }
+                    var mention = args[1].replace("<", "").replace("@", "").replace(">", "").trim()
 
-                        //既に仮挙手している場合、挙手にする
-                        val user = koumoku.getKyoshuUser(other.idLong)
-                        if (user != null && koumoku.getKyoshuUser(other.idLong)!!.temporary) {
-                            user.temporary = false
+                    if (mention.startsWith('!')) {
+                        mention = mention.replace("!", "").trim()
+                    }
+
+                    val other = guild.getMemberById(mention) ?: return replyInDm(EmbedBuilder().apply {
+                        setColor(Color.RED)
+                        setAuthor(
+                            "Error",
+                            null,
+                            null
+                        )
+                        setDescription("そのユーザーはサーバー内に存在しません")
+                    }.build())
+
+                    if (!NumberUtils.isInteger(args[0]) || args[0].toInt() > 36 || args[0].toInt() < 0) {
+                        return replyInDm(EmbedBuilder().apply {
+                            setColor(Color.RED)
+                            setAuthor(
+                                "Error",
+                                null,
+                                null
+                            )
+                            setDescription("hourは0~36で指定する必要があります。")
+                        }.build())
+                    }
+
+                    val koumoku = boshu.getKoumokuByHour(args[0].toInt()) ?: return replyInDm(EmbedBuilder().apply {
+                        setColor(Color.RED)
+                        setAuthor(
+                            "Error",
+                            null,
+                            null
+                        )
+                        setDescription("${args[0]}時の項目は存在しません")
+                    }.build())
+
+                    if (koumoku.isClosed()) {
+                        return replyInDm(EmbedBuilder().apply {
+                            setColor(Color.RED)
+                            setAuthor(
+                                "Error",
+                                null,
+                                null
+                            )
+                            setDescription("${args[0]}時の項目は締め切られています")
+                        }.build())
+                    }
+
+                    //既に仮挙手している場合、挙手にする
+                    val user = koumoku.getKyoshuUser(other.idLong)
+                    if (user != null && koumoku.getKyoshuUser(other.idLong)!!.temporary) {
+                        user.temporary = false
+                        boshu.save()
+
+                        boshu.updateMessage(guild, settings, false)
+                        return
+                    }
+
+                    //既に本挙手している場合、エラー
+                    else if (user != null && !koumoku.getKyoshuUser(other.idLong)!!.temporary) {
+                        return replyInDm(EmbedBuilder().apply {
+                            setColor(Color.RED)
+                            setAuthor(
+                                "Error",
+                                null,
+                                null
+                            )
+                            setDescription("${other.effectiveName}は既に${args[0]}時に挙手しています")
+                        }.build())
+                    }
+
+                    //本挙手していない場合
+                    else if (!koumoku.isKyoshu(other.idLong)) {
+                        if (koumoku.kyoshuUsers.add(KyoshuUser(other.idLong, false))) {
+
                             boshu.save()
 
                             boshu.updateMessage(guild, settings, false)
-                            return
-                        }
-
-                        //既に本挙手している場合、エラー
-                        else if (user != null && !koumoku.getKyoshuUser(other.idLong)!!.temporary) {
-                            return replyInDm(EmbedBuilder().apply {
-                                setColor(Color.RED)
-                                setAuthor(
-                                    "Error",
-                                    null,
-                                    null
-                                )
-                                setDescription("${other.effectiveName}は既に${args[0]}時に挙手しています")
-                            }.build())
-                        }
-
-                        //本挙手していない場合
-                        else if (!koumoku.isKyoshu(other.idLong)) {
-                            if (koumoku.kyoshuUsers.add(KyoshuUser(other.idLong, false))) {
-
-                                boshu.save()
-
-                                boshu.updateMessage(guild, settings, false)
-                            }
                         }
                     }
                     return
