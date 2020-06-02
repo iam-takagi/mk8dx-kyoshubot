@@ -2,7 +2,7 @@ package me.notsmatch.kyoshubot.service
 
 import me.notsmatch.kyoshubot.model.GuildSettings
 
-class GuildSettingsService(val mongoService: MongoService, val boshuService: BoshuService) {
+class GuildSettingsService(val mongoService: MongoService) {
 
     fun getGuildSettings(guildId: Long) : GuildSettings {
         mongoService.apply {
