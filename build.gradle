@@ -17,8 +17,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile 'net.dv8tion:JDA:4.BETA.0_24'
-    compile 'com.jagrosh:jda-utilities:3.0.1'
+    compile 'net.dv8tion:JDA:4.1.1_156'
+    compile 'com.jagrosh:jda-utilities:3.0.3'
     compile 'org.apache.commons:commons-lang3:3.1'
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.12.1'
     compile 'com.google.code.gson:gson:2.8.6'
@@ -47,3 +47,4 @@ task fatJar(type: Jar) {
     exclude "META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA"
     with jar
 }
+
