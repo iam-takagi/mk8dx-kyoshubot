@@ -30,7 +30,7 @@ class Bot (private val token: String) {
 
     lateinit var jda: JDA
     val boshuService: BoshuService = BoshuService()
-    val settingsService: GuildSettingsService = GuildSettingsService(mongoService, boshuService)
+    val settingsService: GuildSettingsService = GuildSettingsService(mongoService)
     val eventWaiter = EventWaiter()
 
     fun start() {

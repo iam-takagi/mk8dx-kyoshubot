@@ -24,9 +24,8 @@ class MongoService {
 
     init {
 
-        this.client = MongoClient(ServerAddress("localhost", 27017))
-        this.database = this.client.getDatabase("kyoshubot")
-
+        this.client = MongoClient(MongoClientURI(System.getenv("MONGO_URI")))
+        this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
 
         this.boshu_collection = this.database.getCollection("boshu")
         this.guild_settings_collection = this.database.getCollection("settings")
