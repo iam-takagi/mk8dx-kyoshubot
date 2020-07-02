@@ -25,6 +25,8 @@ class TemporaryCanCommand(val boshuService: BoshuService, val settingsService: G
 
             val settings = settingsService.getGuildSettings(guild.idLong)
 
+            if(settings.banned)return reply("This server has been banned.")
+
             if (settings.getCommandOption("tc") == null || !settings.getCommandOption("tc")!!.visibility) {
                 event.message.delete().complete()
             }

@@ -20,7 +20,7 @@ class StartCommand(val boshuService: BoshuService, val settingsService: GuildSet
         event?.apply {
 
             val settings = settingsService.getGuildSettings(guild.idLong)
-
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("start") == null || !settings.getCommandOption("start")!!.visibility) {
                 event.message.delete().complete()
             }

@@ -19,8 +19,9 @@ class CloseCommand (val boshuService: BoshuService, val settingsService: GuildSe
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-            val settings = settingsService.getGuildSettings(guild.idLong)
 
+            val settings = settingsService.getGuildSettings(guild.idLong)
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("close") == null || !settings.getCommandOption("close")!!.visibility) {
                 event.message.delete().complete()
             }

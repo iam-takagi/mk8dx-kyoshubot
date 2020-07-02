@@ -23,7 +23,7 @@ class RemoveCommand(val boshuService: BoshuService,  val settingsService: GuildS
         event?.apply {
 
             val settings = settingsService.getGuildSettings(guild.idLong)
-
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("remove") == null || !settings.getCommandOption("remove")!!.visibility) {
                 event.message.delete().complete()
             }

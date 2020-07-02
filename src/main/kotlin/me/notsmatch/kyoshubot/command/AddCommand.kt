@@ -6,7 +6,6 @@ import me.notsmatch.kyoshubot.model.Koumoku
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
 
-import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
@@ -22,8 +21,9 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-
             val settings = settingsService.getGuildSettings(guild.idLong)
+
+            if(settings.banned)return reply("This server has been banned.")
 
             if (settings.getCommandOption("add") == null || !settings.getCommandOption("add")!!.visibility) {
                 event.message.delete().complete()

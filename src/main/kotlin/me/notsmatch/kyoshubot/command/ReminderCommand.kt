@@ -21,7 +21,7 @@ class ReminderCommand(val boshuService: BoshuService, val settingsService: Guild
         event?.apply {
 
             val settings = settingsService.getGuildSettings(guild.idLong)
-
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("reminder") == null || !settings.getCommandOption("reminder")!!.visibility) {
                 event.message.delete().complete()
             }

@@ -20,8 +20,9 @@ class SetNotifyChannelCommand (val boshuService: BoshuService, val settingsServi
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-            val settings = settingsService.getGuildSettings(guild.idLong)
 
+            val settings = settingsService.getGuildSettings(guild.idLong)
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("setnotifychannel") == null || !settings.getCommandOption("setnotifychannel")!!.visibility) {
                 event.message.delete().complete()
             }

@@ -22,7 +22,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
         event?.apply {
 
             val settings = settingsService.getGuildSettings(guild.idLong)
-
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("setmention") == null || !settings.getCommandOption("setmention")!!.visibility) {
                 event.message.delete().complete()
             }

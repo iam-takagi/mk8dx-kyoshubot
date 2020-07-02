@@ -18,13 +18,14 @@ data class CommandOption(val command: String, var visibility: Boolean) {
     }
 }
 
-data class GuildSettings(val guildId: Long, var mention: String?, var notifyChannelId: Long, val commandOptions: MutableList<CommandOption>) {
+data class GuildSettings(val guildId: Long, var mention: String?, var notifyChannelId: Long, val banned: Boolean, val commandOptions: MutableList<CommandOption>) {
 
     fun toDocument() : Document {
         return Document().apply {
             put("guildId", guildId)
             put("mention", mention)
             put("notifyChannelId", notifyChannelId)
+            put("banned", banned)
             val commandOptionsArray = BasicDBList()
 
             commandOptions.forEach { option ->
@@ -78,7 +79,7 @@ data class GuildSettings(val guildId: Long, var mention: String?, var notifyChan
                     commandOptions.add(CommandOption(commandOptionJson.get("command").asString, commandOptionJson.get("visibility").asBoolean))
                 }
 
-                return GuildSettings(getLong("guildId"), getString("mention"), getLong("notifyChannelId"), commandOptions)
+                return GuildSettings(getLong("guildId"), getString("mention"), getLong("notifyChannelId"), getBoolean("banned"), commandOptions)
             }
         }
     }

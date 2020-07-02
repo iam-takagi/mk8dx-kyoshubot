@@ -21,8 +21,9 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
 
     override fun execute(event: CommandEvent?) {
         event?.apply {
-            val settings = settingsService.getGuildSettings(guild.idLong)
 
+            val settings = settingsService.getGuildSettings(guild.idLong)
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("c") == null || !settings.getCommandOption("c")!!.visibility) {
                 event.message.delete().complete()
             }

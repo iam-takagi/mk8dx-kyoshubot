@@ -96,7 +96,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                 }
             }
             setDescription(builder.toString())
-        }.build()).queue()
+        }.build()).complete()
     }
 
 

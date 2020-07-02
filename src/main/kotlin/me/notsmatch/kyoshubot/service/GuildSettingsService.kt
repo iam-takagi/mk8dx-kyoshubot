@@ -8,7 +8,7 @@ class GuildSettingsService(val mongoService: MongoService) {
         mongoService.apply {
             val doc = findGuildSettingsDocById(guildId)
             if(doc == null){
-                val settings = GuildSettings(guildId, "everyone", 0, mutableListOf())
+                val settings = GuildSettings(guildId, "everyone", 0, false, mutableListOf())
                 replaceGuildSettings(guildId, settings.toDocument())
                 return settings
             }

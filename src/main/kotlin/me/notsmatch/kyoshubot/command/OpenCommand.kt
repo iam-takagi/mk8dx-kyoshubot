@@ -21,7 +21,7 @@ class OpenCommand(val boshuService: BoshuService, val settingsService: GuildSett
         event?.apply {
 
             val settings = settingsService.getGuildSettings(guild.idLong)
-
+            if(settings.banned)return reply("This server has been banned.")
             if (settings.getCommandOption("open") == null || !settings.getCommandOption("open")!!.visibility) {
                 event.message.delete().complete()
             }
