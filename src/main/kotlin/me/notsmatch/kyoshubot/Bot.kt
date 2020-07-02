@@ -32,12 +32,15 @@ class Bot (private val token: String) {
     val boshuService: BoshuService = BoshuService()
     val settingsService: GuildSettingsService = GuildSettingsService(mongoService)
     val eventWaiter = EventWaiter()
+    val WEBSITE = System.getenv("WEBSITE")
 
     fun start() {
         instance = this
         jda = JDABuilder(AccountType.BOT).setToken(token).setStatus(OnlineStatus.ONLINE).build()
 
         val builder = CommandClientBuilder()
+
+        builder.useDefaultGame()
 
         builder.setOwnerId("695218967173922866")
         builder.setPrefix(".")
@@ -59,7 +62,7 @@ class Bot (private val token: String) {
             SetNotifyChannelCommand(boshuService, settingsService),
             ReminderCommand(boshuService, settingsService),
             GuildlistCommand(eventWaiter),
-            AboutCommand(Color.GREEN, "https://github.com/notsmatch/KyoshuBot", Permission.VIEW_CHANNEL, Permission.MESSAGE_MANAGE, Permission.MESSAGE_MENTION_EVERYONE, Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ)
+            AboutCommand(Color.GREEN, "https://github.com/riptakagi/KyoshuBot", Permission.VIEW_CHANNEL, Permission.MESSAGE_MANAGE, Permission.MESSAGE_MENTION_EVERYONE, Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ)
         )
 
         builder.setHelpWord("kyoshu")
@@ -79,7 +82,7 @@ class Listener : ListenerAdapter() {
         timer.schedule(object : TimerTask() {
             override fun run() {
                 event.jda.apply {
-                    presence.setPresence(OnlineStatus.ONLINE, Activity.watching(".kyoshuabout | ${guilds.size} servers"))
+                    presence.setPresence(OnlineStatus.ONLINE, Activity.watching("${Bot.instance.WEBSITE} | ${guilds.size} servers"))
                 }
             }
         }, 0, 1000*300)
