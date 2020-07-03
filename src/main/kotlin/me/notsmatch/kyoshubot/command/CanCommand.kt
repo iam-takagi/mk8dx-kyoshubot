@@ -84,6 +84,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         }.build())
                     }
 
+                    //項目が存在しない場合
                     val koumoku = boshu.getKoumokuByHour(args[0].toInt()) ?: return replyInDm(EmbedBuilder().apply {
                         setColor(Color.RED)
                         setAuthor(
@@ -94,6 +95,17 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         setDescription("${args[0]}時の項目は存在しません")
                     }.build())
 
+                    //既に仮挙手している場合、挙手にする
+                    val user = koumoku.getKyoshuUser(other.idLong)
+                    if (user != null && koumoku.getKyoshuUser(other.idLong)!!.temporary) {
+                        user.temporary = false
+                        boshu.save()
+
+                        boshu.updateMessage(guild, settings, false)
+                        return
+                    }
+
+                    //締め切られている場合
                     if (koumoku.isClosed()) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
@@ -106,18 +118,8 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         }.build())
                     }
 
-                    //既に仮挙手している場合、挙手にする
-                    val user = koumoku.getKyoshuUser(other.idLong)
-                    if (user != null && koumoku.getKyoshuUser(other.idLong)!!.temporary) {
-                        user.temporary = false
-                        boshu.save()
-
-                        boshu.updateMessage(guild, settings, false)
-                        return
-                    }
-
                     //既に本挙手している場合、エラー
-                    else if (user != null && !koumoku.getKyoshuUser(other.idLong)!!.temporary) {
+                    if (user != null && !koumoku.getKyoshuUser(other.idLong)!!.temporary) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -130,7 +132,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                     }
 
                     //本挙手していない場合
-                    else if (!koumoku.isKyoshu(other.idLong)) {
+                    if (!koumoku.isKyoshu(other.idLong)) {
                         if (koumoku.kyoshuUsers.add(KyoshuUser(other.idLong, false))) {
 
                             boshu.save()
