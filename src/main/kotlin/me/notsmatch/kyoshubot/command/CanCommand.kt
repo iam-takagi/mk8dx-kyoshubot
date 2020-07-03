@@ -106,7 +106,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                     }
 
                     //締め切られている場合
-                    if (koumoku.isClosed()) {
+                    else if (koumoku.isClosed()) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -119,7 +119,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                     }
 
                     //既に本挙手している場合、エラー
-                    if (user != null && !koumoku.getKyoshuUser(other.idLong)!!.temporary) {
+                    else if (user != null && !koumoku.getKyoshuUser(other.idLong)!!.temporary) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -132,7 +132,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                     }
 
                     //本挙手していない場合
-                    if (!koumoku.isKyoshu(other.idLong)) {
+                    else if (!koumoku.isKyoshu(other.idLong)) {
                         if (koumoku.kyoshuUsers.add(KyoshuUser(other.idLong, false))) {
 
                             boshu.save()
@@ -157,6 +157,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         }.build())
                     }
 
+                    //項目が存在しない場合
                     val koumoku = boshu.getKoumokuByHour(arg.toInt()) ?: return replyInDm(EmbedBuilder().apply {
                         setColor(Color.RED)
                         setAuthor(
@@ -167,7 +168,18 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                         setDescription("${arg}時の項目は存在しません")
                     }.build())
 
-                    if (koumoku.isClosed()) {
+                    //既に仮挙手している場合、挙手にする
+                    val user = koumoku.getKyoshuUser(author.idLong)
+                    if (user != null && koumoku.getKyoshuUser(author.idLong)!!.temporary) {
+                        user.temporary = false
+                        boshu.save()
+
+                        boshu.updateMessage(guild, settings, false)
+                        return
+                    }
+
+                    //既に締め切られている場合
+                    else if (koumoku.isClosed()) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -177,16 +189,6 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                             )
                             setDescription("${arg}時の項目は締め切られています")
                         }.build())
-                    }
-
-                    //既に仮挙手している場合、挙手にする
-                    val user = koumoku.getKyoshuUser(author.idLong)
-                    if (user != null && koumoku.getKyoshuUser(author.idLong)!!.temporary) {
-                        user.temporary = false
-                        boshu.save()
-
-                        boshu.updateMessage(guild, settings, false)
-                        return
                     }
 
                     //既に本挙手している場合、エラー
