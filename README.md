@@ -2,11 +2,6 @@
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
-## Donate
-https://riptakagi.fanbox.cc
-* Minami
-* とーふ。/Louix 
-
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
 * Botがメッセージを書き換えてくれます
@@ -30,4 +25,6 @@ needは0-30で指定してください (募集人数)
 ![](https://i.imgur.com/k6ffZ72.png)
 
 ## Image
-![](https://i.imgur.com/GlXhN5w.png)
+![](https://i.imgur.com/KU63PRY.png)
+
+https://riptakagi.fanbox.cc
