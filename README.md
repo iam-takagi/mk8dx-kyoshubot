@@ -2,6 +2,10 @@
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
+![](https://i.imgur.com/KU63PRY.png)]
+
+![](https://i.imgur.com/PeqSIs1.png)
+
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
 * Botがメッセージを書き換えてくれます
@@ -24,7 +28,5 @@ needは0-30で指定してください (募集人数)
 
 ![](https://i.imgur.com/k6ffZ72.png)
 
-## Image
-![](https://i.imgur.com/KU63PRY.png)
 
 https://riptakagi.fanbox.cc
