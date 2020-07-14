@@ -7,6 +7,7 @@ import me.notsmatch.kyoshubot.service.GuildSettingsService
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
+import java.lang.StringBuilder
 
 class StartCommand(val boshuService: BoshuService, val settingsService: GuildSettingsService) : Command(){
 
@@ -25,7 +26,18 @@ class StartCommand(val boshuService: BoshuService, val settingsService: GuildSet
                 event.message.delete().complete()
             }
 
+            if (boshuService.getBoshu(guild.idLong, channel.idLong) != null)return replyInDm(EmbedBuilder().apply {
+                setColor(Color.RED)
+                setAuthor(
+                    "Error",
+                    null,
+                    null
+                )
+                setDescription("このチャンネルでは既に募集が進行中です")
+            }.build())
+
             val args = StringUtils.split(args)
+
             if(args.isEmpty()){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -38,9 +50,17 @@ class StartCommand(val boshuService: BoshuService, val settingsService: GuildSet
                 }.build())
             }
 
-            val title = args[0]
+            val b = StringBuilder()
 
-            if(title.length > 30){
+            val it = args.iterator()
+            while (it.hasNext()) {
+                val next = it.next()
+                b.append(next)
+
+                if (it.hasNext()) b.append(" ")
+            }
+
+            if(b.toString().length > 30){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -51,33 +71,15 @@ class StartCommand(val boshuService: BoshuService, val settingsService: GuildSet
                     setDescription("タイトルは30文字以下に設定してください")
                 }.build())
             }
-            if (boshuService.addBoshu(guild.idLong, channel.idLong, title)) {
+
+            if (boshuService.addBoshu(guild.idLong, channel.idLong, b.toString())) {
                 val boshu = boshuService.getBoshu(guild.idLong, channel.idLong)!!
 
                 val settings = settingsService.getGuildSettings(guild.idLong)
 
-                boshu.messageId = channel.sendMessage(
-                    EmbedBuilder().apply {
-                        setColor(Color.CYAN)
-                        setAuthor(
-                            "募集を開始しました",
-                            null,
-                            null
-                        )
-                        setDescription("${settings.getMentionString(guild)}\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
-                    }.build()
-                ).complete().idLong
+                boshu.messageId = channel.sendMessage(boshu.toEmbed(guild, settings, false)).complete().idLong
+
                 boshu.save()
-            } else {
-                replyInDm(EmbedBuilder().apply {
-                    setColor(Color.RED)
-                    setAuthor(
-                        "Error",
-                        null,
-                        null
-                    )
-                    setDescription("このチャンネルでは既に募集が開始されています。 募集を終了するには .end を使用してください。")
-                }.build())
             }
         }
     }

@@ -5,7 +5,6 @@ import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.model.KyoshuUser
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
-import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission

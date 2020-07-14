@@ -10,6 +10,8 @@ import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
+import java.lang.StringBuilder
+import java.util.concurrent.TimeUnit
 
 class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSettingsService) : Command(){
 
@@ -48,7 +50,19 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
             if(args.size >= 3) {
                 hour = args[0]
                 need = args[1]
-                title = args[2]
+
+                val b = StringBuilder()
+
+                val it = args.slice(IntRange(2, args.size-1)).iterator()
+                while (it.hasNext()){
+                    val next = it.next()
+                    b.append(next)
+
+                    if(it.hasNext()) b.append(" ")
+                }
+
+                title = b.toString()
+
             } else {
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -57,7 +71,7 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
                         null,
                         null
                     )
-                    setDescription("!add <title> <hour> <need>")
+                    setDescription(".add <title> <hour> <need>")
                 }.build())
             }
 
@@ -122,21 +136,6 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
                 boshu.koumokuList = boshu.koumokuList.sortedWith(kotlin.Comparator { o1, o2 -> if (o1.hour > o2.hour) 1 else -1; }).toMutableList()
 
                 boshu.save()
-
-                /*
-                replyInDm(
-                    EmbedBuilder().apply {
-                        setColor(Color.CYAN)
-                        setAuthor(
-                            "挙手項目を追加しました",
-                            null,
-                            null
-                        )
-                        addField("時間", hour + "時", true)
-                        addField("募集人数", need + "人", true)
-                        addField("タイトル", title, true)
-                    }.build()
-                )*/
 
                 boshu.updateMessage(guild, settings, false)
             }

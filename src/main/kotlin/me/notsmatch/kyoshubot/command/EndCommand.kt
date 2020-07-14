@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
-import me.notsmatch.kyoshubot.util.DiscordUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import java.awt.Color
 import java.lang.StringBuilder

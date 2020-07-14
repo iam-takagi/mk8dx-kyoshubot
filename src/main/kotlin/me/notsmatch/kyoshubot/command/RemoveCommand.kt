@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
-import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
@@ -72,17 +71,6 @@ class RemoveCommand(val boshuService: BoshuService,  val settingsService: GuildS
             if(boshu.koumokuList.remove(koumoku)){
 
                 boshu.save()
-
-                replyInDm(
-                    EmbedBuilder().apply {
-                        setColor(Color.CYAN)
-                        setAuthor(
-                            "${hour}時の項目を削除しました",
-                            null,
-                            null
-                        )
-                    }.build()
-                )
 
                 boshu.updateMessage(guild, settings, false)
             }

@@ -5,7 +5,6 @@ import com.jagrosh.jdautilities.command.CommandEvent
 import me.notsmatch.kyoshubot.model.KyoshuUser
 import me.notsmatch.kyoshubot.service.BoshuService
 import me.notsmatch.kyoshubot.service.GuildSettingsService
-import me.notsmatch.kyoshubot.util.DiscordUtils
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import org.apache.commons.lang3.StringUtils
@@ -79,6 +78,16 @@ class TemporaryCanCommand(val boshuService: BoshuService, val settingsService: G
                             )
                             setDescription("${arg}時の項目は締め切られています")
                         }.build())
+                    }
+
+                    //既に挙手している場合、仮挙手にする
+                    val user = koumoku.getKyoshuUser(author.idLong)
+                    if (user != null && !koumoku.getKyoshuUser(author.idLong)!!.temporary) {
+                        user.temporary = true
+                        boshu.save()
+
+                        boshu.updateMessage(guild, settings, false)
+                        return
                     }
 
                     else if (!koumoku.isKyoshu(author.idLong)) {
