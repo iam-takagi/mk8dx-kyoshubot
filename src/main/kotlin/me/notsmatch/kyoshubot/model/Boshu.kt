@@ -3,12 +3,13 @@ package me.notsmatch.kyoshubot.model
 import com.google.gson.JsonElement
 import com.mongodb.BasicDBList
 import me.notsmatch.kyoshubot.Bot
-import me.notsmatch.kyoshubot.util.DiscordUtils
+import me.notsmatch.kyoshubot.Config
 import me.notsmatch.kyoshubot.util.JsonUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.entities.Guild
+import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.entities.TextChannel
 import org.bson.Document
-import java.awt.Color
 import java.lang.StringBuilder
 
 data class Boshu(val guildId: Long, val channelId: Long, val title: String, var messageId: Long, var koumokuList: MutableList<Koumoku>) {
@@ -49,14 +50,10 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
         Bot.mongoService.replaceBoshu(guildId, channelId, toDocument())
     }
 
-    /**
-     * メッセージ更新
-     */
-    fun updateMessage(guild: Guild, settings: GuildSettings, end: Boolean) {
-        val textChannel = guild.getTextChannelById(channelId) ?: return
-        textChannel.editMessageById(messageId, EmbedBuilder().apply {
-            setColor(Color.CYAN)
-            if(!end){
+    fun toEmbed(guild: Guild, settings: GuildSettings, end: Boolean) : MessageEmbed {
+        return EmbedBuilder().apply {
+            setColor(Config.EMBED_COLOR)
+            if (!end) {
                 setAuthor(
                     "募集が進行中です",
                     null,
@@ -70,38 +67,48 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                 )
             }
 
-            val builder =
-                StringBuilder("${settings.getMentionString(guild)}\nタイトル: " + title + "\n" + ".add <hour> <need> <title> を使用して挙手項目を追加してください。")
-            builder.append("==========================\n")
+            setTitle(title)
+
+            val sb =
+                StringBuilder("`.add <hour> <need> <title> - 挙手項目を追加`")
+            sb.append("\n\n")
             val it = koumokuList.iterator()
+
             while (it.hasNext()) {
                 val k = it.next()
-                val b = StringBuilder("・${k.hour}時 ${k.kyoshuSizeText()} ${k.title}")
+                val b = StringBuilder("> ${k.hour}時 ${k.kyoshuSizeText()} ${k.title}")
                 if (k.kyoshuUsers.size >= 1) {
-                    b.append("\n")
+                    b.append("\n> ")
                     k.kyoshuUsers.forEach { user ->
                         val member = guild.getMemberById(user.id)
                         if (member != null) {
-                            b.append(DiscordUtils.getName(member))
-                            if(user.temporary){
+                            b.append(member.effectiveName)
+                            if (user.temporary) {
                                 b.append("(仮)")
                             }
                             b.append(" ")
                         }
                     }
                 }
-                builder.append(b.toString())
+                sb.append(b.toString())
                 if (it.hasNext()) {
-                    builder.append("\n")
+                    sb.append("\n\n")
                 }
             }
-            setDescription(builder.toString())
-        }.build()).complete()
+            setDescription(sb.toString())
+        }.build()
     }
 
+    fun getTextChannel(guild: Guild) : TextChannel?{
+        return guild.getTextChannelById(channelId) ?: return null
+    }
 
-
-
+    /**
+     * メッセージ更新
+     */
+    fun updateMessage(guild: Guild, settings: GuildSettings, end: Boolean) {
+        getTextChannel(guild)!!.editMessageById(messageId, toEmbed(guild, settings, end)).queue()
+    }
 
     companion object {
 
