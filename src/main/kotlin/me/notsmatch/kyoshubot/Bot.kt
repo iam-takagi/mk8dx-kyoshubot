@@ -16,26 +16,29 @@ import java.awt.Color
 import java.util.*
 
 
-class Bot (private val token: String) {
+class Bot (private val token: String, val dev: Boolean) {
 
     companion object {
         @JvmStatic
         lateinit var instance: Bot
 
         @JvmStatic
-        val mongoService: MongoService = MongoService()
+        lateinit var mongoService: MongoService
 
         val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start", "notify", "tc", "close", "setnotifychannel")
     }
 
     lateinit var jda: JDA
-    val boshuService: BoshuService = BoshuService()
-    val settingsService: GuildSettingsService = GuildSettingsService(mongoService)
+    lateinit var boshuService: BoshuService
+    lateinit var settingsService: GuildSettingsService
     val eventWaiter = EventWaiter()
     val WEBSITE = System.getenv("WEBSITE")
 
     fun start() {
         instance = this
+        mongoService = MongoService(dev)
+        settingsService = GuildSettingsService(mongoService)
+        boshuService = BoshuService()
         jda = JDABuilder(AccountType.BOT).setToken(token).setStatus(OnlineStatus.ONLINE).build()
 
         val builder = CommandClientBuilder()

@@ -14,18 +14,21 @@ import org.bson.Document
 import org.bson.conversions.Bson
 
 
-class MongoService {
+class MongoService(val dev: Boolean) {
 
     val client: MongoClient
     val database: MongoDatabase
     val boshu_collection: MongoCollection<Document>
     val guild_settings_collection: MongoCollection<Document>
 
-
     init {
-
-        this.client = MongoClient(MongoClientURI(System.getenv("MONGO_URI")))
-        this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
+        if(dev){
+            this.client = MongoClient(ServerAddress("localhost", 27017))
+            this.database = this.client.getDatabase("kyoshu")
+        }else {
+            this.client = MongoClient(MongoClientURI(System.getenv("MONGO_URI")))
+            this.database = this.client.getDatabase(System.getenv("MONGO_DATABASE"))
+        }
 
         this.boshu_collection = this.database.getCollection("boshu")
         this.guild_settings_collection = this.database.getCollection("settings")
