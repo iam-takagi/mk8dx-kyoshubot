@@ -2,9 +2,9 @@
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
-![](https://i.imgur.com/KU63PRY.png)]
-
 ![](https://i.imgur.com/PeqSIs1.png)
+
+![](https://i.imgur.com/KU63PRY.png)]
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
