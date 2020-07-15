@@ -11,6 +11,8 @@ import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.entities.TextChannel
 import org.bson.Document
 import java.lang.StringBuilder
+import java.util.*
+import kotlin.collections.ArrayList
 
 data class Boshu(val guildId: Long, val channelId: Long, val title: String, var messageId: Long, var koumokuList: MutableList<Koumoku>) {
 
@@ -96,6 +98,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                 }
             }
             setDescription(sb.toString())
+            setTimestamp(Date().toInstant())
         }.build()
     }
 
