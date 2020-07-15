@@ -2,10 +2,9 @@
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
-## Donate
-https://riptakagi.fanbox.cc
-* Minami
-* とーふ。/Louix 
+![](https://i.imgur.com/PeqSIs1.png)
+
+![](https://i.imgur.com/KU63PRY.png)
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
@@ -29,5 +28,5 @@ needは0-30で指定してください (募集人数)
 
 ![](https://i.imgur.com/k6ffZ72.png)
 
-## Image
-![](https://i.imgur.com/GlXhN5w.png)
+
+https://riptakagi.fanbox.cc
