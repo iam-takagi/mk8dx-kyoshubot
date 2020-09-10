@@ -2,9 +2,9 @@
 
 https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permissions=76800&scope=bot
 
-![](https://i.imgur.com/PeqSIs1.png)
+![](https://i.imgur.com/Sg1rJsu.png)
 
-![](https://i.imgur.com/KU63PRY.png)
+![](https://i.imgur.com/PRFvVWO.png)
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
@@ -27,6 +27,3 @@ needは0-30で指定してください (募集人数)
 .kyoshuでhelp表示
 
 ![](https://i.imgur.com/k6ffZ72.png)
-
-
-https://riptakagi.fanbox.cc
