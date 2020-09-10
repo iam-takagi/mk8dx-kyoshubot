@@ -34,8 +34,6 @@ class ResendCommand (val boshuService: BoshuService,  val settingsService: Guild
                     setDescription("このチャンネルでは募集が開始されていません。")
                 }.build())
 
-            channel.deleteMessageById(boshu.messageId).queue()
-
             boshu.messageId = channel.sendMessage(
                     boshu.toEmbed(guild, settings, false)
             ).complete().idLong
