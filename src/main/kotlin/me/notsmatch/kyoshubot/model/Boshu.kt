@@ -69,7 +69,9 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
                 )
             }
 
+
             setTitle(title)
+
 
             val sb =
                 StringBuilder("`.add <hour> <need> <title> - 挙手項目を追加`")
@@ -78,7 +80,7 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
 
             while (it.hasNext()) {
                 val k = it.next()
-                val b = StringBuilder("> ${k.hour}時 ${k.kyoshuSizeText()} ${k.title}")
+                val b = StringBuilder("> ${k.hour}時 ${k.kyoshuSizeText()} ${if(k.title != null && title.isNotEmpty()) k.title else ""}")
                 if (k.kyoshuUsers.size >= 1) {
                     b.append("\n> ")
                     k.kyoshuUsers.forEach { user ->

@@ -47,21 +47,23 @@ class AddCommand(val boshuService: BoshuService,  val settingsService: GuildSett
             var hour: String = ""
             var need: String = ""
 
-            if(args.size >= 3) {
+            if(args.size >= 2) {
                 hour = args[0]
                 need = args[1]
 
-                val b = StringBuilder()
+                if(args.size >= 3) {
+                    val b = StringBuilder()
 
-                val it = args.slice(IntRange(2, args.size-1)).iterator()
-                while (it.hasNext()){
-                    val next = it.next()
-                    b.append(next)
+                    val it = args.slice(IntRange(2, args.size - 1)).iterator()
+                    while (it.hasNext()) {
+                        val next = it.next()
+                        b.append(next)
 
-                    if(it.hasNext()) b.append(" ")
+                        if (it.hasNext()) b.append(" ")
+                    }
+
+                    title = b.toString()
                 }
-
-                title = b.toString()
 
             } else {
                 return replyInDm(EmbedBuilder().apply {

@@ -12,7 +12,7 @@ import java.lang.StringBuilder
  * @param need 募集人数
  * @param kyoshuUsers 挙手してるユーザー
  */
-data class Koumoku(val title: String, val hour: Int, val need: Int, var closed: Boolean, val kyoshuUsers: MutableList<KyoshuUser>) {
+data class Koumoku(val title: String?, val hour: Int, val need: Int, var closed: Boolean, val kyoshuUsers: MutableList<KyoshuUser>) {
 
 
     fun kyoshuSizeText() : String {
