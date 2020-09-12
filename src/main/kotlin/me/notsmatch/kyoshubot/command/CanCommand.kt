@@ -44,7 +44,8 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
             if (args.isNotEmpty()) {
 
                 if(args.size == 2 && args[1].startsWith("<@") && args[1].endsWith('>')) {
-                    if (!member.hasPermission(Permission.ADMINISTRATOR)) {
+                    val role = guild.getRolesByName("Kyoshu Admin", true).first()
+                    if (role == null || !member.roles.contains(role)) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -52,7 +53,7 @@ class CanCommand(val boshuService: BoshuService, val settingsService: GuildSetti
                                 null,
                                 null
                             )
-                            setDescription("You don't have a permission: ADMINISTRATOR")
+                            setDescription("You don't have a role: Kyohu Admin")
                         }.build())
                     }
 

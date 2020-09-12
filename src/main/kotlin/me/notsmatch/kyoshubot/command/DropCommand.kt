@@ -8,6 +8,7 @@ import me.notsmatch.kyoshubot.service.GuildSettingsService
 import me.notsmatch.kyoshubot.util.NumberUtils
 import net.dv8tion.jda.api.EmbedBuilder
 import net.dv8tion.jda.api.Permission
+import net.dv8tion.jda.api.entities.Role
 import org.apache.commons.lang3.StringUtils
 import java.awt.Color
 import java.lang.StringBuilder
@@ -45,7 +46,8 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
             if (args.isNotEmpty()) {
 
                 if(args.size == 2 && args[1].startsWith("<@") && args[1].endsWith('>')) {
-                    if (!member.hasPermission(Permission.ADMINISTRATOR)) {
+                    val role = guild.getRolesByName("Kyoshu Admin", true).first()
+                    if (role == null || !member.roles.contains(role)) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -53,7 +55,7 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
                                 null,
                                 null
                             )
-                            setDescription("You don't have a permission: ADMINISTRATOR")
+                            setDescription("You don't have a role: Kyohu Admin")
                         }.build())
                     }
 
