@@ -25,7 +25,7 @@ class Bot (private val token: String, val dev: Boolean) {
         @JvmStatic
         lateinit var mongoService: MongoService
 
-        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start", "notify", "tc", "close", "setnotifychannel")
+        val commands = arrayOf("add", "c", "cv", "d", "end", "remove", "resend", "setmention", "start", "notify", "tc", "close", "setnotifychannel", "clear")
     }
 
     lateinit var jda: JDA
@@ -64,6 +64,7 @@ class Bot (private val token: String, val dev: Boolean) {
             OpenCommand(boshuService, settingsService),
             SetNotifyChannelCommand(boshuService, settingsService),
             ReminderCommand(boshuService, settingsService),
+            ClearCommand(boshuService, settingsService),
             GuildlistCommand(eventWaiter),
             AboutCommand(Color.GREEN, "https://github.com/riptakagi/KyoshuBot", Permission.VIEW_CHANNEL, Permission.MESSAGE_MANAGE, Permission.MESSAGE_MENTION_EVERYONE, Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_WRITE, Permission.MESSAGE_READ)
         )
