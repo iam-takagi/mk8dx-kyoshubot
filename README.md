@@ -4,12 +4,15 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 
 ![](https://i.imgur.com/Sg1rJsu.png)
 
-![](https://i.imgur.com/PRFvVWO.png)
+![](https://i.imgur.com/HO6o9Xp.png)
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
 * Botがメッセージを書き換えてくれます
 * バグ報告・欲しい機能の提案 Issuesでお待ちしております
+
+## 管理者権限
+管理者権限　または　「Kyoshu Admin」ロールが必要
 
 ## Usage
 hourは0-36で指定してください (時間)
@@ -26,4 +29,4 @@ needは0-30で指定してください (募集人数)
 
 .kyoshuでhelp表示
 
-![](https://i.imgur.com/k6ffZ72.png)
+![](https://i.imgur.com/TxOdZFz.png)
