@@ -79,17 +79,37 @@ class Bot (private val token: String, val dev: Boolean) {
 
 class Listener : ListenerAdapter() {
 
-    override fun onReady(event: ReadyEvent) {
-        event.jda.guilds.forEach{guild -> println(guild.name)}
+    var p = 0
 
+    override fun onReady(event: ReadyEvent) {
         val timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
                 event.jda.apply {
-                    presence.setPresence(OnlineStatus.ONLINE, Activity.watching("${Bot.instance.WEBSITE} | ${guilds.size} servers"))
+                    if(p == 0) {
+                        presence.setPresence(
+                            OnlineStatus.ONLINE,
+                            Activity.watching("${Bot.instance.WEBSITE} | ${guilds.size} servers")
+                        )
+                        p = 1
+                    }
+                    else if(p == 1) {
+                        presence.setPresence(
+                            OnlineStatus.ONLINE,
+                            Activity.playing(".kyoshu - help")
+                        )
+                        p = 2
+                    }
+                    else if(p == 2) {
+                        presence.setPresence(
+                            OnlineStatus.ONLINE,
+                            Activity.watching("${Bot.mongoService.boshu_collection.countDocuments()} boshu")
+                        )
+                        p = 0
+                    }
                 }
             }
-        }, 0, 1000*300)
+        }, 0, 1000*7)
     }
 
     override fun onGuildLeave(event: GuildLeaveEvent) {
