@@ -11,6 +11,9 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 * Botがメッセージを書き換えてくれます
 * バグ報告・欲しい機能の提案 Issuesでお待ちしております
 
+## 管理者権限
+Kyoshu Admin ロールを付与してください
+
 ## Usage
 hourは0-36で指定してください (時間)
 
