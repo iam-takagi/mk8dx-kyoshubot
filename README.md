@@ -12,7 +12,7 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 * バグ報告・欲しい機能の提案 Issuesでお待ちしております
 
 ## 管理者権限
-Kyoshu Admin ロールを付与してください
+管理者権限　または　「Kyoshu Admin」ロールが必要
 
 ## Usage
 hourは0-36で指定してください (時間)
