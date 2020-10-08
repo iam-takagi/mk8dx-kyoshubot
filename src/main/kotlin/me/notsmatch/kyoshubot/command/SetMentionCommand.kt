@@ -28,7 +28,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
             }
 
             val role = guild.getRolesByName("Kyoshu Admin", true).first()
-            if (role == null || !member.roles.contains(role)) {
+            if (!member.hasPermission(Permission.ADMINISTRATOR) && role == null || !member.hasPermission(Permission.ADMINISTRATOR) &&  !member.roles.contains(role)) {
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
                     setAuthor(
@@ -36,7 +36,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                         null,
                         null
                     )
-                    setDescription("You don't have a role: Kyohu Admin")
+                    setDescription("管理者権限　または　権限ロール(Kyoshu Admin)が必要です。")
                 }.build())
             }
 

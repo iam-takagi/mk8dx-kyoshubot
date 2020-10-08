@@ -47,7 +47,7 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
 
                 if(args.size == 2 && args[1].startsWith("<@") && args[1].endsWith('>')) {
                     val role = guild.getRolesByName("Kyoshu Admin", true).first()
-                    if (role == null || !member.roles.contains(role)) {
+                    if (!member.hasPermission(Permission.ADMINISTRATOR) && role == null || !member.hasPermission(Permission.ADMINISTRATOR) &&  !member.roles.contains(role)) {
                         return replyInDm(EmbedBuilder().apply {
                             setColor(Color.RED)
                             setAuthor(
@@ -55,7 +55,7 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
                                 null,
                                 null
                             )
-                            setDescription("You don't have a role: Kyohu Admin")
+                            setDescription("管理者権限　または　権限ロール(Kyoshu Admin)が必要です。")
                         }.build())
                     }
 
@@ -64,8 +64,6 @@ class DropCommand(val boshuService: BoshuService, val settingsService: GuildSett
                     if (mention.startsWith('!')) {
                         mention = mention.replace("!", "").trim()
                     }
-
-                    println(mention)
 
                     val other = guild.getMemberById(mention) ?: return replyInDm(EmbedBuilder().apply {
                         setColor(Color.RED)
