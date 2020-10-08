@@ -14,8 +14,8 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
 
     init {
         this.name = "setmention"
-        this.help = "募集時のメンションを変更します"
-        this.arguments = "<role_id | everyone | here>"
+        this.help = "募集時のメンションを変更します (noneで非表示)"
+        this.arguments = "<role_id | none | everyone | here>"
     }
 
     override fun execute(event: CommandEvent?) {
@@ -49,7 +49,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                         null,
                         null
                     )
-                    setDescription("``.setmention <role_id | everyone | here>``")
+                    setDescription("``.setmention <role_id | none | everyone | here>``")
                 }.build())
             }
 
@@ -93,6 +93,26 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                 }.build())
             }
 
+            else if(args[0].equals("none", true)){
+                settings.apply {
+                    mention = "none"
+                    save()
+                    val boshuList = boshuService.getBoshuListByGuildId(guild.idLong) ?: return
+                    boshuList.forEach { boshu ->
+                        boshu.updateMessage(guild, settings, false)
+                    }
+                }
+                return replyInDm(EmbedBuilder().apply {
+                    setColor(Color.CYAN)
+                    setAuthor(
+                        "メンションを変更しました",
+                        null,
+                        null
+                    )
+                    setDescription("メンションは非表示になりました")
+                }.build())
+            }
+
             else if(!NumberUtils.isLong(args[0])){
                 return replyInDm(EmbedBuilder().apply {
                     setColor(Color.RED)
@@ -101,7 +121,7 @@ class SetMentionCommand(val boshuService: BoshuService, val settingsService: Gui
                         null,
                         null
                     )
-                    setDescription("``.setmention <role_id | everyone | here>``")
+                    setDescription("``.setmention <role_id | none | everyone | here>``")
                 }.build())
             } else {
 
