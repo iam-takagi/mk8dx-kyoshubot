@@ -4,7 +4,7 @@ https://discord.com/api/oauth2/authorize?client_id=705559539872694272&permission
 
 ![](https://i.imgur.com/Sg1rJsu.png)
 
-![](https://i.imgur.com/PRFvVWO.png)
+![](https://i.imgur.com/HO6o9Xp.png)
 
 ## Description
 * 1つのサーバーでチャンネルごとに募集をかけることができます
@@ -29,4 +29,4 @@ needは0-30で指定してください (募集人数)
 
 .kyoshuでhelp表示
 
-![](https://i.imgur.com/HO6o9Xp.png)
+![](https://i.imgur.com/TxOdZFz.png)
