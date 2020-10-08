@@ -72,9 +72,8 @@ data class Boshu(val guildId: Long, val channelId: Long, val title: String, var 
 
             setTitle(title)
 
-
             val sb =
-                StringBuilder("`.add <hour> <need> <title> - 挙手項目を追加`")
+                StringBuilder("`.add <hour> <need> <title> - 挙手項目を追加` ${settings.getMentionString(guild)}")
             sb.append("\n\n")
             val it = koumokuList.iterator()
 

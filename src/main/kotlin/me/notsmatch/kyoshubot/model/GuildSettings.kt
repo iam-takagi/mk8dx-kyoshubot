@@ -46,20 +46,23 @@ data class GuildSettings(val guildId: Long, var mention: String?, var notifyChan
 
     fun getMentionString(guild: Guild) : String {
         if(mention == null){
-            return "@everyone"
+            return "(@everyone)"
         } else {
+            if(mention.equals("none")) {
+                return ""
+            }
             if(mention.equals("here")){
-                return "@here"
+                return "(@here)"
             }
             if(mention.equals("everyone")){
-                return "@everyone"
+                return "(@everyone)"
             }
             val role = guild.getRoleById(mention!!)
             if(role == null || !role.isMentionable){
                 this.mention = "everyone"
-                return "@everyone"
+                return "(@everyone)"
             }
-            return role.asMention
+            return "(" + role.asMention + ")"
         }
     }
 
